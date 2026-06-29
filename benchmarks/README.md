@@ -5,9 +5,14 @@ The harness compares baseline prompts against Graybeard instructions on code
 size, correctness, behavior gates, cost, and latency where the provider exposes
 telemetry.
 
-No Graybeard medians are published yet. Do not quote Ponytail's historical
-numbers as Graybeard results; run this harness and publish fresh result files
-under `benchmarks/results/` when measured.
+Published Graybeard medians live under `benchmarks/results/`. Do not quote
+Ponytail's historical numbers as Graybeard results.
+
+## Published Results
+
+| Date | Harness | Model | Result |
+|------|---------|-------|--------|
+| 2026-06-29 | local Ollama LOC/latency | `llama3.2` | Graybeard produced 142 median LOC, 17% more than the 121 LOC baseline. See `results/2026-06-29-llama3.2-local.md`. |
 
 ## Reproduce
 
@@ -65,9 +70,9 @@ Benchmark result files must say:
 
 - model/provider and date
 - exact config and repeat count
-- pass/fail rates for correctness and behavior gates
+- pass/fail rates for correctness and behavior gates when measured
 - median code size, cost, and latency when available
 - known limitations or invalidated runs
 
-Until such files exist, `/graybeard-gain` should report that no published
-Graybeard medians exist.
+`/graybeard-gain` should summarize the newest published result honestly,
+including negative or inconclusive findings.

@@ -20,6 +20,7 @@ measured medians for:
 - code size where measured
 - cost / latency where measured
 - safety or regression failures
+- limitations, invalidated runs, or negative findings
 
 If no Graybeard result files exist, say:
 
@@ -34,4 +35,6 @@ Then list the runnable benchmark entry points:
 ## Boundary
 
 Ponytail's published benchmark results are upstream evidence for Ponytail, not
-Graybeard. Graybeard needs its own run before claiming savings.
+Graybeard. Graybeard needs its own run before claiming savings. If the newest
+Graybeard run shows more code, worse latency, or missing correctness coverage,
+say that plainly.
