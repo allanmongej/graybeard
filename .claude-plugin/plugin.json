@@ -1,10 +1,10 @@
 {
-  "name": "ponytail",
+  "name": "graybeard",
   "version": "4.8.4",
-  "description": "Lazy senior dev mode. Forces the simplest, shortest solution that actually works: YAGNI, stdlib first, no unrequested abstractions.",
+  "description": "Reads repo instructions and manifests, then pushes agents toward stack-native patterns, YAGNI scope control, and real tests.",
   "author": {
-    "name": "Dietrich Gebert",
-    "url": "https://github.com/DietrichGebert"
+    "name": "Allan Monge",
+    "url": "https://github.com/allanmongej"
   },
   "hooks": "./hooks/claude-codex-hooks.json"
 }

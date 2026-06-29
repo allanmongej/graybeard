@@ -1,15 +1,15 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "ponytail",
-  "description": "Lazy senior dev mode for AI agents. The best code is the code you never wrote.",
+  "name": "graybeard",
+  "description": "Reads repo instructions and manifests, then pushes agents toward stack-native patterns, YAGNI scope control, and real tests.",
   "owner": {
-    "name": "Dietrich Gebert",
-    "url": "https://github.com/DietrichGebert"
+    "name": "Allan Monge",
+    "url": "https://github.com/allanmongej"
   },
   "plugins": [
     {
-      "name": "ponytail",
-      "description": "Forces the laziest solution that works. YAGNI, stdlib first, one line over fifty.",
+      "name": "graybeard",
+      "description": "Detects the repo stack, reuses framework/local patterns, applies YAGNI, and requires tests for risky behavior.",
       "source": "./",
       "category": "productivity"
     }

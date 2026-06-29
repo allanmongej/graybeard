@@ -1,21 +1,21 @@
-name: ponytail
+name: graybeard
 version: 4.8.4
-description: Lazy senior dev mode for Hermes Agent, always-on context, bundled skills, and slash commands.
-author: Salaamdev
+description: Reads repo instructions and manifests, then pushes agents toward stack-native patterns, tight scope, contract/failure-mode discipline, and real tests.
+author: Allan Monge
 provides_hooks:
   - pre_llm_call
   - pre_gateway_dispatch
 provides_commands:
-  - ponytail
-  - ponytail-review
-  - ponytail-audit
-  - ponytail-debt
-  - ponytail-gain
-  - ponytail-help
+  - graybeard
+  - graybeard-review
+  - graybeard-audit
+  - graybeard-debt
+  - graybeard-gain
+  - graybeard-help
 provides_skills:
-  - ponytail
-  - ponytail-review
-  - ponytail-audit
-  - ponytail-debt
-  - ponytail-gain
-  - ponytail-help
+  - graybeard
+  - graybeard-review
+  - graybeard-audit
+  - graybeard-debt
+  - graybeard-gain
+  - graybeard-help
