@@ -42,11 +42,14 @@ The harness expects a Claude CLI environment and provider credentials. Example:
 
 ```bash
 python benchmarks/agentic/run.py \
-  --arms baseline,graybeard \
+  --canonical \
   --models haiku \
   --runs 4 \
   --workers 6
 ```
+
+Each run writes `results.json`, `summary.json`, and `report.md` under
+`benchmarks/agentic/runs/<timestamp>/`.
 
 Use `benchmarks/agentic/complete.py` to complete or summarize interrupted runs.
 

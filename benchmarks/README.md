@@ -85,7 +85,7 @@ tasks with deterministic scoring:
 
 ```bash
 python benchmarks/agentic/run.py --selftest
-python benchmarks/agentic/run.py --arms baseline,graybeard --models haiku --runs 4
+python benchmarks/agentic/run.py --canonical --models haiku --runs 4
 ```
 
 The agentic task set should cover:
@@ -110,7 +110,7 @@ they should not be used as the main claim that Graybeard is better.
 
 | File | Metric | Behavior |
 |------|--------|----------|
-| `agentic/run.py` | `correct`, `safe`, source/test LOC | Primary harness; scores realistic repo-edit tasks. |
+| `agentic/run.py` | `quality`, `correct`, `safe`, `repo_fit`, `root_cause`, `test_discipline` | Primary harness; scores realistic repo-edit tasks and writes `report.md`. |
 | `loc.js` | `code_loc` | Supporting measurement only; records non-comment code lines from fenced blocks. |
 | `correctness.js` | `correct` | Gate; fails generated code that does not satisfy task checks. |
 | `behavior.js` | `behavior` | Gate; checks Graybeard-specific senior-dev behaviors. |

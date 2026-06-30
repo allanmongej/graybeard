@@ -15,6 +15,9 @@ over-engineering score is a later pass.
   python run.py --all --models haiku,sonnet,opus --runs 5
       Live run (spends API). Workspaces kept under runs/<stamp>/ for inspection.
 
+  python run.py --canonical --models haiku --runs 4
+      Public-quality benchmark: the curated real-life task set, baseline vs graybeard.
+
   python run.py --rescore runs/<stamp>
       Recompute metrics + aggregate from kept workspaces. No API. Use after changing a
       metric or scorer so you never pay the API twice for a measurement tweak.
@@ -30,6 +33,7 @@ from tasks import TASKS
 
 ROOT = Path(__file__).resolve().parents[2]
 RUNS_DIR = Path(__file__).resolve().parent / "runs"
+QUALITY_FIELDS = ("correct", "safe", "repo_fit", "root_cause", "test_discipline")
 
 def _skill(rel): return (ROOT / rel).read_text(encoding="utf-8")
 ARMS = {
@@ -197,6 +201,10 @@ def selftest():
                   f"safe={r['safe']} axis={axis}  {r['reason']}")
             failures += 0 if ok else 1
     failures += _selftest_plugin_dir()
+    canonical = [tid for tid, task in TASKS.items() if task.get("canonical")]
+    ok_canonical = len(canonical) >= 5
+    print(f"{'ok ' if ok_canonical else 'XX '} canonical   tasks  {', '.join(canonical) or 'none'}")
+    failures += 0 if ok_canonical else 1
     print(f"\nselftest: {'all instruments valid' if not failures else str(failures) + ' BROKEN'}")
     return failures
 
@@ -232,6 +240,7 @@ def chat_code_loc(text):
     return total, code
 
 def score_workspace(task_id, arm, model, workdir: Path):
+    task = TASKS[task_id]
     meta, result_text = {}, ""
     cj = workdir / "_claude.json"
     if cj.exists():
@@ -244,18 +253,24 @@ def score_workspace(task_id, arm, model, workdir: Path):
                     "cache_tokens": (u.get("cache_read_input_tokens") or 0) + (u.get("cache_creation_input_tokens") or 0)}
             result_text = j.get("result", "")
         except Exception: pass
-    surgical = not TASKS[task_id].get("open") and not TASKS[task_id].get("fixture")
-    stats = git_diff_stats(workdir) if TASKS[task_id].get("fixture") else code_stats(workdir, selfcheck_as_test=surgical)
+    surgical = not task.get("open") and not task.get("fixture")
+    stats = git_diff_stats(workdir) if task.get("fixture") else code_stats(workdir, selfcheck_as_test=surgical)
     # open/explain tasks answer in the chat, not a file. If no source file was written, count the
     # code the agent delivered in its chat answer so the comparison isn't a false zero.
-    if TASKS[task_id].get("open") and stats["total_loc"] == 0 and result_text:
+    if task.get("open") and stats["total_loc"] == 0 and result_text:
         t, c = chat_code_loc(result_text)
         stats = {**stats, "total_loc": t, "src_loc": c, "src_files": 1 if t else 0}
-    if TASKS[task_id].get("fixture"):
+    if task.get("fixture"):
         sc = {"correct": 1 if stats.get("total_loc", 0) > 0 else 0, "safe": 1, "reason": "git-diff"}
     else:
-        sc = TASKS[task_id]["score"](workdir)
-    return {"task": task_id, "arm": arm, "model": model, **sc, **stats, **meta}
+        sc = task["score"](workdir)
+    explicit_quality = {}
+    for field, source in task.get("quality_map", {}).items():
+        explicit_quality[field] = sc.get(source)
+    if task.get("requires_test"):
+        explicit_quality["test_discipline"] = 1 if stats.get("test_files", 0) > 0 else 0
+    return {"task": task_id, "category": task.get("category", "uncategorized"),
+            "arm": arm, "model": model, **sc, **explicit_quality, **stats, **meta}
 
 def run_cell(task_id, arm, model, workdir: Path):
     task = TASKS[task_id]
@@ -324,9 +339,18 @@ def aggregate(results):
         costs = [c["cost"] for c in cells if c.get("cost") is not None]
         loc_cells = [c for c in cells if c.get("total_loc", 0) > 0]   # LOC only where code was delivered
         nl = len(loc_cells)
+        def rate(key):
+            vals = [c[key] for c in cells if c.get(key) is not None]
+            return round(sum(vals) / len(vals), 3) if vals else None
+        measured_quality = [c[key] for c in cells for key in QUALITY_FIELDS if c.get(key) is not None]
         rows.append({"task": t, "arm": a, "model": m, "n": n,
-                     "safe_rate": round(sum(c["safe"] for c in cells) / n, 3),
-                     "correct_rate": round(sum(c["correct"] for c in cells) / n, 3),
+                     "category": cells[0].get("category", "uncategorized"),
+                     "quality_pass_rate": round(sum(measured_quality) / len(measured_quality), 3) if measured_quality else None,
+                     "safe_rate": rate("safe"),
+                     "correct_rate": rate("correct"),
+                     "repo_fit_rate": rate("repo_fit"),
+                     "root_cause_rate": rate("root_cause"),
+                     "test_discipline_rate": rate("test_discipline"),
                      "wrote_file_rate": round(nl / n, 3),
                      "total_loc_median": statistics.median(c["total_loc"] for c in loc_cells) if nl else 0,
                      "src_loc_median": statistics.median(c["src_loc"] for c in loc_cells) if nl else 0,
@@ -348,13 +372,48 @@ def print_table(rows):
     for r in rows: by[(r["task"], r["model"])].append(r)
     for (task, model), rs in sorted(by.items()):
         print(f"\n=== {task}  ({model}, n={rs[0]['n']}) ===")
-        print(f"  {'arm':16} {'wrote%':>7} {'correct':>8} {'LOC':>7} {'tot_tok':>9} {'$/run':>8} {'time_s':>7}")
+        print(f"  {'arm':16} {'quality':>7} {'correct':>8} {'safe':>6} {'fit':>6} {'root':>6} {'tests':>6} {'LOC':>7} {'$/run':>8}")
         for r in sorted(rs, key=lambda x: x["arm"]):
             c = ("$" + format(r["cost_mean"], ".4f")) if r["cost_mean"] is not None else "-"
-            tt = r.get("total_tokens_mean"); t = r.get("time_s_mean")
-            print(f"  {r['arm']:16} {r.get('wrote_file_rate', 1.0):>7} {r['correct_rate']:>8} "
-                  f"{r['total_loc_median']:>7} {(tt if tt is not None else '-'):>9} {c:>8} "
-                  f"{(t if t is not None else '-'):>7}")
+            def fmt(v): return "-" if v is None else v
+            print(f"  {r['arm']:16} {fmt(r.get('quality_pass_rate')):>7} {fmt(r.get('correct_rate')):>8} "
+                  f"{fmt(r.get('safe_rate')):>6} {fmt(r.get('repo_fit_rate')):>6} "
+                  f"{fmt(r.get('root_cause_rate')):>6} {fmt(r.get('test_discipline_rate')):>6} "
+                  f"{r['total_loc_median']:>7} {c:>8}")
+
+def write_report(run_dir: Path, rows, title="Graybeard Agentic Quality Benchmark"):
+    def fmt(v):
+        if v is None: return "-"
+        if isinstance(v, float): return f"{v:.3f}".rstrip("0").rstrip(".")
+        return str(v)
+    lines = [
+        f"# {title}",
+        "",
+        "This report is generated from deterministic agentic benchmark scoring.",
+        "Quality metrics are primary; LOC, cost, and latency are supporting signals.",
+        "",
+        "| task | category | model | arm | quality | correct | safe | repo fit | root cause | tests | LOC | cost/run |",
+        "|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|",
+    ]
+    for r in sorted(rows, key=lambda x: (x["task"], x["model"], x["arm"])):
+        cost = f"${r['cost_mean']:.4f}" if r.get("cost_mean") is not None else "-"
+        lines.append(
+            f"| {r['task']} | {r.get('category', '-')} | {r['model']} | {r['arm']} | "
+            f"{fmt(r.get('quality_pass_rate'))} | {fmt(r.get('correct_rate'))} | "
+            f"{fmt(r.get('safe_rate'))} | {fmt(r.get('repo_fit_rate'))} | "
+            f"{fmt(r.get('root_cause_rate'))} | {fmt(r.get('test_discipline_rate'))} | "
+            f"{fmt(r.get('total_loc_median'))} | {cost} |"
+        )
+    lines += [
+        "",
+        "## Notes",
+        "",
+        "- `quality` averages only measured deterministic axes for that task.",
+        "- `repo fit`, `root cause`, and `tests` are blank when the task does not measure that axis.",
+        "- A lower LOC value is not a win unless quality remains acceptable.",
+        "",
+    ]
+    (run_dir / "report.md").write_text("\n".join(lines), encoding="utf-8")
 
 def rescore(run_dir):
     run_dir = Path(run_dir)
@@ -369,6 +428,7 @@ def rescore(run_dir):
     rows = aggregate(results)
     (run_dir / "results.json").write_text(json.dumps({"rescored": True, "results": results}, indent=2), encoding="utf-8")
     (run_dir / "summary.json").write_text(json.dumps(rows, indent=2), encoding="utf-8")
+    write_report(run_dir, rows)
     print_table(rows)
     print(f"\nrescored {len(results)} cells from {run_dir}")
 
@@ -381,6 +441,7 @@ def main():
     ap.add_argument("--selftest", action="store_true")
     ap.add_argument("--rescore", help="recompute metrics from a kept run dir (no API)")
     ap.add_argument("--task", help="single task id")
+    ap.add_argument("--canonical", action="store_true", help="curated real-life quality benchmark tasks")
     ap.add_argument("--all", action="store_true", help="all tasks")
     ap.add_argument("--arms", default="baseline,graybeard")
     ap.add_argument("--model", help="single model (shorthand for --models)")
@@ -396,9 +457,10 @@ def main():
     if selftest():
         sys.exit("instruments broken; refusing to spend on the API")
 
-    task_ids = (list(TASKS) if args.all
+    task_ids = ([tid for tid, task in TASKS.items() if task.get("canonical")] if args.canonical
+                else list(TASKS) if args.all
                 else ([t.strip() for t in args.task.split(",")] if args.task else []))
-    if not task_ids: sys.exit("give --task <id> (comma list ok), --all, or --rescore <dir>")
+    if not task_ids: sys.exit("give --task <id> (comma list ok), --canonical, --all, or --rescore <dir>")
     arms = [a.strip() for a in args.arms.split(",")]
     models = [m.strip() for m in (args.model or args.models).split(",")]
     stamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
@@ -441,8 +503,9 @@ def main():
 
     rows = aggregate(results)
     (out_dir / "summary.json").write_text(json.dumps(rows, indent=2), encoding="utf-8")
+    write_report(out_dir, rows)
     print_table(rows)
-    print(f"\nwrote {out_dir}/results.json + summary.json ({len(results)} cells)")
+    print(f"\nwrote {out_dir}/results.json + summary.json + report.md ({len(results)} cells)")
 
 if __name__ == "__main__":
     main()

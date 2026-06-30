@@ -27,6 +27,8 @@ If no Graybeard result files exist, say:
 
 Then list the runnable benchmark entry points:
 
+- `python benchmarks/agentic/run.py --selftest`
+- `python benchmarks/agentic/run.py --canonical --models haiku --runs 4`
 - `npx promptfoo@latest eval -c benchmarks/promptfooconfig.yaml --repeat 10`
 - `npx promptfoo@latest eval -c benchmarks/behavior.yaml --repeat 10`
 - `python benchmarks/benchmark-local.py --model llama3.2 --repeat 3`
