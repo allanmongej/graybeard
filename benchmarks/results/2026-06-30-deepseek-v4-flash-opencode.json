@@ -1,0 +1,3563 @@
+{
+  "date": "2026-06-30",
+  "provider": "OpenCode Go",
+  "model": "opencode-go/deepseek-v4-flash",
+  "variant": "max",
+  "opencode_version": "1.17.11",
+  "repeat": 3,
+  "tasks": [
+    "email",
+    "debounce",
+    "csv-sum",
+    "countdown",
+    "rate-limit"
+  ],
+  "command_shape": "opencode run -m opencode-go/deepseek-v4-flash --variant max --format json <prompt>",
+  "results": {
+    "baseline": {
+      "email": [
+        {
+          "exit_code": 0,
+          "time": 12.6,
+          "loc": 8,
+          "response": "```python\nimport re\n\n_EMAIL_PATTERN = re.compile(r'^[a-zA-Z0-9.!#$%&\\'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\\.[a-zA-Z]{2,}$')\n\ndef validate_email(email: str) -> bool:\n    if not isinstance(email, str):\n        return False\n    if len(email) > 254:\n        return False\n    return bool(_EMAIL_PATTERN.match(email))\n```\n\nThis validates RFC 5321 format: local part allows printable ASCII except specials like `()<>[]:;@\\,`, domain part enforces valid label structure (max 63 chars per label, no leading/trailing hyphens), and overall length capped at 254 chars per RFC 5321. No external dependencies.",
+          "tokens": {
+            "total": 31582,
+            "input": 31201,
+            "output": 230,
+            "reasoning": 151,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.00447482,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782836408876,
+              "sessionID": "ses_0e6ab5caeffec9h0eLdL56W7Nb",
+              "part": {
+                "id": "prt_f1954b227001fSPGl9VWD53BkZ",
+                "messageID": "msg_f1954a590001GnSRCfQ7BKl9wl",
+                "sessionID": "ses_0e6ab5caeffec9h0eLdL56W7Nb",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782836414136,
+              "sessionID": "ses_0e6ab5caeffec9h0eLdL56W7Nb",
+              "part": {
+                "id": "prt_f1954be1f001PshFvHmHexwVkH",
+                "messageID": "msg_f1954a590001GnSRCfQ7BKl9wl",
+                "sessionID": "ses_0e6ab5caeffec9h0eLdL56W7Nb",
+                "type": "text",
+                "text": "```python\nimport re\n\n_EMAIL_PATTERN = re.compile(r'^[a-zA-Z0-9.!#$%&\\'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\\.[a-zA-Z]{2,}$')\n\ndef validate_email(email: str) -> bool:\n    if not isinstance(email, str):\n        return False\n    if len(email) > 254:\n        return False\n    return bool(_EMAIL_PATTERN.match(email))\n```\n\nThis validates RFC 5321 format: local part allows printable ASCII except specials like `()<>[]:;@\\,`, domain part enforces valid label structure (max 63 chars per label, no leading/trailing hyphens), and overall length capped at 254 chars per RFC 5321. No external dependencies.",
+                "time": {
+                  "start": 1782836411935,
+                  "end": 1782836414130
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782836414173,
+              "sessionID": "ses_0e6ab5caeffec9h0eLdL56W7Nb",
+              "part": {
+                "id": "prt_f1954c6da0010O0539bV8jYhn7",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f1954a590001GnSRCfQ7BKl9wl",
+                "sessionID": "ses_0e6ab5caeffec9h0eLdL56W7Nb",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 31582,
+                  "input": 31201,
+                  "output": 230,
+                  "reasoning": 151,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.00447482
+              }
+            }
+          ]
+        },
+        {
+          "exit_code": 0,
+          "time": 71.4,
+          "loc": 21,
+          "response": "```python\nimport re\n\n_EMAIL_PATTERN = re.compile(\n    r'^(?P<local>[a-zA-Z0-9.!#$%&\\'*+/=?^_`{|}~-]+)'\n    r'@'\n    r'(?P<domain>[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?'\n    r'(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*'\n    r'\\.[a-zA-Z]{2,})$'\n)\n\ndef is_valid_email(address: str) -> bool:\n    if not address or len(address) > 254:\n        return False\n    if not _EMAIL_PATTERN.match(address):\n        return False\n    local, domain = address.rsplit('@', 1)\n    if len(local) > 64:\n        return False\n    if '..' in local:\n        return False\n    if local.startswith('.') or local.endswith('.'):\n        return False\n    return True\n```",
+          "tokens": {
+            "total": 31508,
+            "input": 31149,
+            "output": 248,
+            "reasoning": 111,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.00446138,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782837369147,
+              "sessionID": "ses_0e69cb512ffefGNYc6adeTp4VQ",
+              "part": {
+                "id": "prt_f19635939001UGFk3t0MH9HfSZ",
+                "messageID": "msg_f19634d22001MLnq6QyAGnp1RS",
+                "sessionID": "ses_0e69cb512ffefGNYc6adeTp4VQ",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782837373419,
+              "sessionID": "ses_0e69cb512ffefGNYc6adeTp4VQ",
+              "part": {
+                "id": "prt_f1963632a00141QfZbh5jGAzGQ",
+                "messageID": "msg_f19634d22001MLnq6QyAGnp1RS",
+                "sessionID": "ses_0e69cb512ffefGNYc6adeTp4VQ",
+                "type": "text",
+                "text": "```python\nimport re\n\n_EMAIL_PATTERN = re.compile(\n    r'^(?P<local>[a-zA-Z0-9.!#$%&\\'*+/=?^_`{|}~-]+)'\n    r'@'\n    r'(?P<domain>[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?'\n    r'(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*'\n    r'\\.[a-zA-Z]{2,})$'\n)\n\ndef is_valid_email(address: str) -> bool:\n    if not address or len(address) > 254:\n        return False\n    if not _EMAIL_PATTERN.match(address):\n        return False\n    local, domain = address.rsplit('@', 1)\n    if len(local) > 64:\n        return False\n    if '..' in local:\n        return False\n    if local.startswith('.') or local.endswith('.'):\n        return False\n    return True\n```",
+                "time": {
+                  "start": 1782837371690,
+                  "end": 1782837373414
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782837373445,
+              "sessionID": "ses_0e69cb512ffefGNYc6adeTp4VQ",
+              "part": {
+                "id": "prt_f19636a03001ZR8bb1tfHx1n5H",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f19634d22001MLnq6QyAGnp1RS",
+                "sessionID": "ses_0e69cb512ffefGNYc6adeTp4VQ",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 31508,
+                  "input": 31149,
+                  "output": 248,
+                  "reasoning": 111,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.00446138
+              }
+            }
+          ]
+        },
+        {
+          "exit_code": 0,
+          "time": 69.1,
+          "loc": 4,
+          "response": "```python\nimport re\n\ndef is_valid_email(email: str) -> bool:\n    pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'\n    return bool(re.match(pattern, email))\n```",
+          "tokens": {
+            "total": 31292,
+            "input": 31178,
+            "output": 65,
+            "reasoning": 49,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.00439684,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782838332226,
+              "sessionID": "ses_0e68e02ecffePQWJnnl0dijFk9",
+              "part": {
+                "id": "prt_f19720b3f0017QP8AecrEsk1wZ",
+                "messageID": "msg_f1971ff950018ADQnVHlnpmOtn",
+                "sessionID": "ses_0e68e02ecffePQWJnnl0dijFk9",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782838334758,
+              "sessionID": "ses_0e68e02ecffePQWJnnl0dijFk9",
+              "part": {
+                "id": "prt_f19721346001wEQ67RfCyveB1K",
+                "messageID": "msg_f1971ff950018ADQnVHlnpmOtn",
+                "sessionID": "ses_0e68e02ecffePQWJnnl0dijFk9",
+                "type": "text",
+                "text": "```python\nimport re\n\ndef is_valid_email(email: str) -> bool:\n    pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'\n    return bool(re.match(pattern, email))\n```",
+                "time": {
+                  "start": 1782838334278,
+                  "end": 1782838334755
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782838334789,
+              "sessionID": "ses_0e68e02ecffePQWJnnl0dijFk9",
+              "part": {
+                "id": "prt_f19721542001L0O0p439Fvcwyw",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f1971ff950018ADQnVHlnpmOtn",
+                "sessionID": "ses_0e68e02ecffePQWJnnl0dijFk9",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 31292,
+                  "input": 31178,
+                  "output": 65,
+                  "reasoning": 49,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.00439684
+              }
+            }
+          ]
+        }
+      ],
+      "debounce": [
+        {
+          "exit_code": 0,
+          "time": 73.5,
+          "loc": 12,
+          "response": "```javascript\nfunction debounce(fn, delay) {\n  let timer;\n  return (...args) => {\n    clearTimeout(timer);\n    timer = setTimeout(() => fn(...args), delay);\n  };\n}\n\nconst searchInput = document.getElementById('search');\nconst handleSearch = debounce((query) => {\n  fetch(`/api/search?q=${encodeURIComponent(query)}`);\n}, 300);\n\nsearchInput.addEventListener('input', (e) => handleSearch(e.target.value));\n```",
+          "tokens": {
+            "total": 31341,
+            "input": 31193,
+            "output": 101,
+            "reasoning": 47,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.00440846,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782836484957,
+              "sessionID": "ses_0e6aa339dffe5cXho0VY96SnpU",
+              "part": {
+                "id": "prt_f1955db59001Oxp2sb3CghpA6T",
+                "messageID": "msg_f1955cfd9001GgpffhcluZ15zp",
+                "sessionID": "ses_0e6aa339dffe5cXho0VY96SnpU",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782836487678,
+              "sessionID": "ses_0e6aa339dffe5cXho0VY96SnpU",
+              "part": {
+                "id": "prt_f1955e332001RRK1g6SyQSM4B9",
+                "messageID": "msg_f1955cfd9001GgpffhcluZ15zp",
+                "sessionID": "ses_0e6aa339dffe5cXho0VY96SnpU",
+                "type": "text",
+                "text": "```javascript\nfunction debounce(fn, delay) {\n  let timer;\n  return (...args) => {\n    clearTimeout(timer);\n    timer = setTimeout(() => fn(...args), delay);\n  };\n}\n\nconst searchInput = document.getElementById('search');\nconst handleSearch = debounce((query) => {\n  fetch(`/api/search?q=${encodeURIComponent(query)}`);\n}, 300);\n\nsearchInput.addEventListener('input', (e) => handleSearch(e.target.value));\n```",
+                "time": {
+                  "start": 1782836486962,
+                  "end": 1782836487673
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782836487713,
+              "sessionID": "ses_0e6aa339dffe5cXho0VY96SnpU",
+              "part": {
+                "id": "prt_f1955e61e001KlerNfxy1VXwrt",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f1955cfd9001GgpffhcluZ15zp",
+                "sessionID": "ses_0e6aa339dffe5cXho0VY96SnpU",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 31341,
+                  "input": 31193,
+                  "output": 101,
+                  "reasoning": 47,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.00440846
+              }
+            }
+          ]
+        },
+        {
+          "exit_code": 0,
+          "time": 70.4,
+          "loc": 14,
+          "response": "```javascript\nfunction debounce(fn, delay) {\n  let timer;\n  return (...args) => {\n    clearTimeout(timer);\n    timer = setTimeout(() => fn(...args), delay);\n  };\n}\n\nconst handleSearch = debounce(async (query) => {\n  const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`);\n  const data = await res.json();\n  // render results\n}, 300);\n\ndocument.querySelector('#search-input').addEventListener('input', (e) => {\n  handleSearch(e.target.value);\n});\n```",
+          "tokens": {
+            "total": 31376,
+            "input": 31235,
+            "output": 118,
+            "reasoning": 23,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.00441238,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782837441397,
+              "sessionID": "ses_0e69b9aa4ffe44rTPf77wQlfq4",
+              "part": {
+                "id": "prt_f19647371001PcodEusEs3UxgK",
+                "messageID": "msg_f19646788001vPYnAy1hbWe2Z8",
+                "sessionID": "ses_0e69b9aa4ffe44rTPf77wQlfq4",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782837443833,
+              "sessionID": "ses_0e69b9aa4ffe44rTPf77wQlfq4",
+              "part": {
+                "id": "prt_f1964798b001SmRWrbYh5mZViC",
+                "messageID": "msg_f19646788001vPYnAy1hbWe2Z8",
+                "sessionID": "ses_0e69b9aa4ffe44rTPf77wQlfq4",
+                "type": "text",
+                "text": "```javascript\nfunction debounce(fn, delay) {\n  let timer;\n  return (...args) => {\n    clearTimeout(timer);\n    timer = setTimeout(() => fn(...args), delay);\n  };\n}\n\nconst handleSearch = debounce(async (query) => {\n  const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`);\n  const data = await res.json();\n  // render results\n}, 300);\n\ndocument.querySelector('#search-input').addEventListener('input', (e) => {\n  handleSearch(e.target.value);\n});\n```",
+                "time": {
+                  "start": 1782837442955,
+                  "end": 1782837443829
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782837443861,
+              "sessionID": "ses_0e69b9aa4ffe44rTPf77wQlfq4",
+              "part": {
+                "id": "prt_f19647d12001PBfwYj3Iw2vGf7",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f19646788001vPYnAy1hbWe2Z8",
+                "sessionID": "ses_0e69b9aa4ffe44rTPf77wQlfq4",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 31376,
+                  "input": 31235,
+                  "output": 118,
+                  "reasoning": 23,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.00441238
+              }
+            }
+          ]
+        },
+        {
+          "exit_code": 0,
+          "time": 9.9,
+          "loc": 18,
+          "response": "```javascript\nconst searchInput = document.getElementById('search');\nlet debounceTimer;\n\nsearchInput.addEventListener('input', () => {\n  clearTimeout(debounceTimer);\n  debounceTimer = setTimeout(() => {\n    fetch(`/api/search?q=${encodeURIComponent(searchInput.value)}`);\n  }, 300);\n});\n```\n\nOr as a reusable function:\n\n```javascript\nfunction debounce(fn, delay = 300) {\n  let timer;\n  return (...args) => {\n    clearTimeout(timer);\n    timer = setTimeout(() => fn(...args), delay);\n  };\n}\n\nsearchInput.addEventListener('input', debounce(async (e) => {\n  const res = await fetch(`/api/search?q=${encodeURIComponent(e.target.value)}`);\n  // handle response\n}, 300));\n```",
+          "tokens": {
+            "total": 31470,
+            "input": 31265,
+            "output": 166,
+            "reasoning": 39,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.0044345,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782838341638,
+              "sessionID": "ses_0e68ddf80ffednLdaUaFfojHWs",
+              "part": {
+                "id": "prt_f197230020013eotWtYnL4CxUO",
+                "messageID": "msg_f197222c600176Lyj8IqKsIlo7",
+                "sessionID": "ses_0e68ddf80ffednLdaUaFfojHWs",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782838344670,
+              "sessionID": "ses_0e68ddf80ffednLdaUaFfojHWs",
+              "part": {
+                "id": "prt_f197236ec0016WgYztrJKyE1Fr",
+                "messageID": "msg_f197222c600176Lyj8IqKsIlo7",
+                "sessionID": "ses_0e68ddf80ffednLdaUaFfojHWs",
+                "type": "text",
+                "text": "```javascript\nconst searchInput = document.getElementById('search');\nlet debounceTimer;\n\nsearchInput.addEventListener('input', () => {\n  clearTimeout(debounceTimer);\n  debounceTimer = setTimeout(() => {\n    fetch(`/api/search?q=${encodeURIComponent(searchInput.value)}`);\n  }, 300);\n});\n```\n\nOr as a reusable function:\n\n```javascript\nfunction debounce(fn, delay = 300) {\n  let timer;\n  return (...args) => {\n    clearTimeout(timer);\n    timer = setTimeout(() => fn(...args), delay);\n  };\n}\n\nsearchInput.addEventListener('input', debounce(async (e) => {\n  const res = await fetch(`/api/search?q=${encodeURIComponent(e.target.value)}`);\n  // handle response\n}, 300));\n```",
+                "time": {
+                  "start": 1782838343404,
+                  "end": 1782838344664
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782838344704,
+              "sessionID": "ses_0e68ddf80ffednLdaUaFfojHWs",
+              "part": {
+                "id": "prt_f19723bfd001EdaxdB6lkYIXug",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f197222c600176Lyj8IqKsIlo7",
+                "sessionID": "ses_0e68ddf80ffednLdaUaFfojHWs",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 31470,
+                  "input": 31265,
+                  "output": 166,
+                  "reasoning": 39,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.0044345
+              }
+            }
+          ]
+        }
+      ],
+      "csv-sum": [
+        {
+          "exit_code": 0,
+          "time": 69.7,
+          "loc": 4,
+          "response": "```python\nimport csv\n\nwith open('sales.csv') as f:\n    total = sum(int(r['amount']) for r in csv.DictReader(f))\n\nprint(total)\n```",
+          "tokens": {
+            "total": 31330,
+            "input": 31245,
+            "output": 38,
+            "reasoning": 47,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.0043981,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782836555607,
+              "sessionID": "ses_0e6a91f62ffemMTPVECIngvTCM",
+              "part": {
+                "id": "prt_f1956ef54001xv3b3amKU7Sb00",
+                "messageID": "msg_f1956e319001TVuThBxxkXQnBO",
+                "sessionID": "ses_0e6a91f62ffemMTPVECIngvTCM",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782836557400,
+              "sessionID": "ses_0e6a91f62ffemMTPVECIngvTCM",
+              "part": {
+                "id": "prt_f1956f4f8001xsy83eAdgshH6U",
+                "messageID": "msg_f1956e319001TVuThBxxkXQnBO",
+                "sessionID": "ses_0e6a91f62ffemMTPVECIngvTCM",
+                "type": "text",
+                "text": "```python\nimport csv\n\nwith open('sales.csv') as f:\n    total = sum(int(r['amount']) for r in csv.DictReader(f))\n\nprint(total)\n```",
+                "time": {
+                  "start": 1782836557048,
+                  "end": 1782836557395
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782836557439,
+              "sessionID": "ses_0e6a91f62ffemMTPVECIngvTCM",
+              "part": {
+                "id": "prt_f1956f67c0015Hqcy7AAsyKmVs",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f1956e319001TVuThBxxkXQnBO",
+                "sessionID": "ses_0e6a91f62ffemMTPVECIngvTCM",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 31330,
+                  "input": 31245,
+                  "output": 38,
+                  "reasoning": 47,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.0043981
+              }
+            }
+          ]
+        },
+        {
+          "exit_code": 0,
+          "time": 72.1,
+          "loc": 7,
+          "response": "```python\nimport csv\n\ntotal = 0\nwith open(\"sales.csv\", newline=\"\") as f:\n    reader = csv.DictReader(f)\n    for row in reader:\n        total += float(row[\"amount\"])\n\nprint(total)\n```",
+          "tokens": {
+            "total": 31321,
+            "input": 31213,
+            "output": 53,
+            "reasoning": 55,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.00440006,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782837514074,
+              "sessionID": "ses_0e69a7fcbffewqpeKAxFARfi7q",
+              "part": {
+                "id": "prt_f19658f57001zQrlH3Xh0P4PIX",
+                "messageID": "msg_f19658279001alrVtAmEPJXJ65",
+                "sessionID": "ses_0e69a7fcbffewqpeKAxFARfi7q",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782837515990,
+              "sessionID": "ses_0e69a7fcbffewqpeKAxFARfi7q",
+              "part": {
+                "id": "prt_f19659580001gfjkBN09LnQbCY",
+                "messageID": "msg_f19658279001alrVtAmEPJXJ65",
+                "sessionID": "ses_0e69a7fcbffewqpeKAxFARfi7q",
+                "type": "text",
+                "text": "```python\nimport csv\n\ntotal = 0\nwith open(\"sales.csv\", newline=\"\") as f:\n    reader = csv.DictReader(f)\n    for row in reader:\n        total += float(row[\"amount\"])\n\nprint(total)\n```",
+                "time": {
+                  "start": 1782837515648,
+                  "end": 1782837515986
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782837516026,
+              "sessionID": "ses_0e69a7fcbffewqpeKAxFARfi7q",
+              "part": {
+                "id": "prt_f196596f6001bkYZizvg92or9W",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f19658279001alrVtAmEPJXJ65",
+                "sessionID": "ses_0e69a7fcbffewqpeKAxFARfi7q",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 31321,
+                  "input": 31213,
+                  "output": 53,
+                  "reasoning": 55,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.00440006
+              }
+            }
+          ]
+        },
+        {
+          "exit_code": 0,
+          "time": 8.2,
+          "loc": 4,
+          "response": "```python\nimport csv\n\nwith open('sales.csv') as f:\n    total = sum(int(r['amount']) for r in csv.DictReader(f))\n\nprint(total)\n```",
+          "tokens": {
+            "total": 31354,
+            "input": 31278,
+            "output": 38,
+            "reasoning": 38,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.0044002,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782838351113,
+              "sessionID": "ses_0e68db914ffezNVWDQ4IEay8Hs",
+              "part": {
+                "id": "prt_f19725506001u6R9AlkIkE4aR1",
+                "messageID": "msg_f19724950001uF7mKZfI3FPTk9",
+                "sessionID": "ses_0e68db914ffezNVWDQ4IEay8Hs",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782838352853,
+              "sessionID": "ses_0e68db914ffezNVWDQ4IEay8Hs",
+              "part": {
+                "id": "prt_f19725a940018T3m1TI3I0uzet",
+                "messageID": "msg_f19724950001uF7mKZfI3FPTk9",
+                "sessionID": "ses_0e68db914ffezNVWDQ4IEay8Hs",
+                "type": "text",
+                "text": "```python\nimport csv\n\nwith open('sales.csv') as f:\n    total = sum(int(r['amount']) for r in csv.DictReader(f))\n\nprint(total)\n```",
+                "time": {
+                  "start": 1782838352532,
+                  "end": 1782838352849
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782838352879,
+              "sessionID": "ses_0e68db914ffezNVWDQ4IEay8Hs",
+              "part": {
+                "id": "prt_f19725bed00150MRcXxY8h0ysN",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f19724950001uF7mKZfI3FPTk9",
+                "sessionID": "ses_0e68db914ffezNVWDQ4IEay8Hs",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 31354,
+                  "input": 31278,
+                  "output": 38,
+                  "reasoning": 38,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.0044002
+              }
+            }
+          ]
+        }
+      ],
+      "countdown": [
+        {
+          "exit_code": 0,
+          "time": 71.5,
+          "loc": 49,
+          "response": "```tsx\nimport { useState, useEffect, useCallback } from \"react\";\n\ninterface CountdownTimerProps {\n  seconds: number;\n  onComplete?: () => void;\n}\n\nexport function CountdownTimer({ seconds, onComplete }: CountdownTimerProps) {\n  const [remaining, setRemaining] = useState(seconds);\n  const [running, setRunning] = useState(false);\n\n  useEffect(() => {\n    if (!running || remaining <= 0) return;\n    const id = setInterval(() => {\n      setRemaining((prev) => {\n        if (prev <= 1) {\n          clearInterval(id);\n          setRunning(false);\n          onComplete?.();\n          return 0;\n        }\n        return prev - 1;\n      });\n    }, 1000);\n    return () => clearInterval(id);\n  }, [running, onComplete]);\n\n  const start = useCallback(() => setRunning(true), []);\n  const pause = useCallback(() => setRunning(false), []);\n  const reset = useCallback(() => {\n    setRunning(false);\n    setRemaining(seconds);\n  }, [seconds]);\n\n  const mins = Math.floor(remaining / 60);\n  const secs = remaining % 60;\n\n  return (\n    <div>\n      <span>\n        {String(mins).padStart(2, \"0\")}:{String(secs).padStart(2, \"0\")}\n      </span>\n      <div>\n        {!running ? (\n          <button onClick={start} disabled={remaining <= 0}>\n            Start\n          </button>\n        ) : (\n          <button onClick={pause}>Pause</button>\n        )}\n        <button onClick={reset}>Reset</button>\n      </div>\n    </div>\n  );\n}\n```",
+          "tokens": {
+            "total": 31676,
+            "input": 31243,
+            "output": 371,
+            "reasoning": 62,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.00449526,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782836625239,
+              "sessionID": "ses_0e6a810e7ffemnVfjVeCt9O7g6",
+              "part": {
+                "id": "prt_f1957ff53001FWiar11rVjGMS7",
+                "messageID": "msg_f1957f16b001UO97ObOSTphhu8",
+                "sessionID": "ses_0e6a810e7ffemnVfjVeCt9O7g6",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782836628905,
+              "sessionID": "ses_0e6a810e7ffemnVfjVeCt9O7g6",
+              "part": {
+                "id": "prt_f19580571001WeQYhSE19QuOkB",
+                "messageID": "msg_f1957f16b001UO97ObOSTphhu8",
+                "sessionID": "ses_0e6a810e7ffemnVfjVeCt9O7g6",
+                "type": "text",
+                "text": "```tsx\nimport { useState, useEffect, useCallback } from \"react\";\n\ninterface CountdownTimerProps {\n  seconds: number;\n  onComplete?: () => void;\n}\n\nexport function CountdownTimer({ seconds, onComplete }: CountdownTimerProps) {\n  const [remaining, setRemaining] = useState(seconds);\n  const [running, setRunning] = useState(false);\n\n  useEffect(() => {\n    if (!running || remaining <= 0) return;\n    const id = setInterval(() => {\n      setRemaining((prev) => {\n        if (prev <= 1) {\n          clearInterval(id);\n          setRunning(false);\n          onComplete?.();\n          return 0;\n        }\n        return prev - 1;\n      });\n    }, 1000);\n    return () => clearInterval(id);\n  }, [running, onComplete]);\n\n  const start = useCallback(() => setRunning(true), []);\n  const pause = useCallback(() => setRunning(false), []);\n  const reset = useCallback(() => {\n    setRunning(false);\n    setRemaining(seconds);\n  }, [seconds]);\n\n  const mins = Math.floor(remaining / 60);\n  const secs = remaining % 60;\n\n  return (\n    <div>\n      <span>\n        {String(mins).padStart(2, \"0\")}:{String(secs).padStart(2, \"0\")}\n      </span>\n      <div>\n        {!running ? (\n          <button onClick={start} disabled={remaining <= 0}>\n            Start\n          </button>\n        ) : (\n          <button onClick={pause}>Pause</button>\n        )}\n        <button onClick={reset}>Reset</button>\n      </div>\n    </div>\n  );\n}\n```",
+                "time": {
+                  "start": 1782836626801,
+                  "end": 1782836628898
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782836628942,
+              "sessionID": "ses_0e6a810e7ffemnVfjVeCt9O7g6",
+              "part": {
+                "id": "prt_f19580dcb001owqjFDKDp1ahco",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f1957f16b001UO97ObOSTphhu8",
+                "sessionID": "ses_0e6a810e7ffemnVfjVeCt9O7g6",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 31676,
+                  "input": 31243,
+                  "output": 371,
+                  "reasoning": 62,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.00449526
+              }
+            }
+          ]
+        },
+        {
+          "exit_code": 0,
+          "time": 12.6,
+          "loc": 67,
+          "response": "```tsx\nimport { useState, useEffect, useRef, useCallback } from \"react\";\n\ninterface CountdownTimerProps {\n  seconds: number;\n  onComplete?: () => void;\n  autoStart?: boolean;\n}\n\nexport function CountdownTimer({\n  seconds,\n  onComplete,\n  autoStart = true,\n}: CountdownTimerProps) {\n  const [timeLeft, setTimeLeft] = useState(seconds);\n  const [running, setRunning] = useState(autoStart);\n  const intervalRef = useRef<Timer | null>(null);\n  const onCompleteRef = useRef(onComplete);\n  onCompleteRef.current = onComplete;\n\n  const clearTimer = useCallback(() => {\n    if (intervalRef.current !== null) {\n      clearInterval(intervalRef.current);\n      intervalRef.current = null;\n    }\n  }, []);\n\n  useEffect(() => {\n    if (!running || timeLeft <= 0) {\n      clearTimer();\n      return;\n    }\n\n    intervalRef.current = setInterval(() => {\n      setTimeLeft((prev) => {\n        if (prev <= 1) {\n          clearTimer();\n          setRunning(false);\n          onCompleteRef.current?.();\n          return 0;\n        }\n        return prev - 1;\n      });\n    }, 1000);\n\n    return clearTimer;\n  }, [running, timeLeft, clearTimer]);\n\n  const reset = useCallback(() => {\n    clearTimer();\n    setTimeLeft(seconds);\n    setRunning(false);\n  }, [seconds, clearTimer]);\n\n  const start = useCallback(() => setRunning(true), []);\n\n  const pause = useCallback(() => setRunning(false), []);\n\n  const minutes = Math.floor(timeLeft / 60);\n  const secs = timeLeft % 60;\n\n  return (\n    <div>\n      <span>\n        {String(minutes).padStart(2, \"0\")}:{String(secs).padStart(2, \"0\")}\n      </span>\n      <div>\n        {!running ? (\n          <button onClick={start} disabled={timeLeft <= 0}>\n            {timeLeft === seconds ? \"Start\" : \"Resume\"}\n          </button>\n        ) : (\n          <button onClick={pause}>Pause</button>\n        )}\n        <button onClick={reset}>Reset</button>\n      </div>\n    </div>\n  );\n}\n```",
+          "tokens": {
+            "total": 31805,
+            "input": 31247,
+            "output": 498,
+            "reasoning": 60,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.00453082,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782837523616,
+              "sessionID": "ses_0e69a5b4fffe4ieQqBnXtUQ0bl",
+              "part": {
+                "id": "prt_f1965b49c001g64dVzdZ24vor4",
+                "messageID": "msg_f1965a703001rmkMOKX4WSsNym",
+                "sessionID": "ses_0e69a5b4fffe4ieQqBnXtUQ0bl",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782837528625,
+              "sessionID": "ses_0e69a5b4fffe4ieQqBnXtUQ0bl",
+              "part": {
+                "id": "prt_f1965bb94001fzIrgXzceAAZcm",
+                "messageID": "msg_f1965a703001rmkMOKX4WSsNym",
+                "sessionID": "ses_0e69a5b4fffe4ieQqBnXtUQ0bl",
+                "type": "text",
+                "text": "```tsx\nimport { useState, useEffect, useRef, useCallback } from \"react\";\n\ninterface CountdownTimerProps {\n  seconds: number;\n  onComplete?: () => void;\n  autoStart?: boolean;\n}\n\nexport function CountdownTimer({\n  seconds,\n  onComplete,\n  autoStart = true,\n}: CountdownTimerProps) {\n  const [timeLeft, setTimeLeft] = useState(seconds);\n  const [running, setRunning] = useState(autoStart);\n  const intervalRef = useRef<Timer | null>(null);\n  const onCompleteRef = useRef(onComplete);\n  onCompleteRef.current = onComplete;\n\n  const clearTimer = useCallback(() => {\n    if (intervalRef.current !== null) {\n      clearInterval(intervalRef.current);\n      intervalRef.current = null;\n    }\n  }, []);\n\n  useEffect(() => {\n    if (!running || timeLeft <= 0) {\n      clearTimer();\n      return;\n    }\n\n    intervalRef.current = setInterval(() => {\n      setTimeLeft((prev) => {\n        if (prev <= 1) {\n          clearTimer();\n          setRunning(false);\n          onCompleteRef.current?.();\n          return 0;\n        }\n        return prev - 1;\n      });\n    }, 1000);\n\n    return clearTimer;\n  }, [running, timeLeft, clearTimer]);\n\n  const reset = useCallback(() => {\n    clearTimer();\n    setTimeLeft(seconds);\n    setRunning(false);\n  }, [seconds, clearTimer]);\n\n  const start = useCallback(() => setRunning(true), []);\n\n  const pause = useCallback(() => setRunning(false), []);\n\n  const minutes = Math.floor(timeLeft / 60);\n  const secs = timeLeft % 60;\n\n  return (\n    <div>\n      <span>\n        {String(minutes).padStart(2, \"0\")}:{String(secs).padStart(2, \"0\")}\n      </span>\n      <div>\n        {!running ? (\n          <button onClick={start} disabled={timeLeft <= 0}>\n            {timeLeft === seconds ? \"Start\" : \"Resume\"}\n          </button>\n        ) : (\n          <button onClick={pause}>Pause</button>\n        )}\n        <button onClick={reset}>Reset</button>\n      </div>\n    </div>\n  );\n}\n```",
+                "time": {
+                  "start": 1782837525396,
+                  "end": 1782837528619
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782837528679,
+              "sessionID": "ses_0e69a5b4fffe4ieQqBnXtUQ0bl",
+              "part": {
+                "id": "prt_f1965c85a001atTH12rZS04b2P",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f1965a703001rmkMOKX4WSsNym",
+                "sessionID": "ses_0e69a5b4fffe4ieQqBnXtUQ0bl",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 31805,
+                  "input": 31247,
+                  "output": 498,
+                  "reasoning": 60,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.00453082
+              }
+            }
+          ]
+        },
+        {
+          "exit_code": 0,
+          "time": 71.5,
+          "loc": 42,
+          "response": "```tsx\nimport { useState, useEffect, useRef, useCallback } from \"react\";\n\ninterface CountdownTimerProps {\n  seconds: number;\n  onExpire?: () => void;\n}\n\nexport function CountdownTimer({ seconds, onExpire }: CountdownTimerProps) {\n  const [remaining, setRemaining] = useState(seconds);\n  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);\n  const onExpireRef = useRef(onExpire);\n  onExpireRef.current = onExpire;\n\n  const clear = useCallback(() => {\n    if (intervalRef.current !== null) {\n      clearInterval(intervalRef.current);\n      intervalRef.current = null;\n    }\n  }, []);\n\n  useEffect(() => {\n    if (remaining <= 0) {\n      clear();\n      onExpireRef.current?.();\n      return;\n    }\n    intervalRef.current = setInterval(() => {\n      setRemaining((prev) => {\n        if (prev <= 1) {\n          clear();\n          onExpireRef.current?.();\n          return 0;\n        }\n        return prev - 1;\n      });\n    }, 1000);\n    return clear;\n  }, [remaining, clear]);\n\n  const minutes = Math.floor(remaining / 60);\n  const secs = remaining % 60;\n\n  return (\n    <span>\n      {String(minutes).padStart(2, \"0\")}:{String(secs).padStart(2, \"0\")}\n    </span>\n  );\n}\n```",
+          "tokens": {
+            "total": 31579,
+            "input": 31213,
+            "output": 327,
+            "reasoning": 39,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.0044723,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782838420490,
+              "sessionID": "ses_0e68caab1ffenMatJTEY8PDQne",
+              "part": {
+                "id": "prt_f19736406001uDL4oE6huFPvLu",
+                "messageID": "msg_f1973589c001PPdOhfZ4g1YCVG",
+                "sessionID": "ses_0e68caab1ffenMatJTEY8PDQne",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782838424362,
+              "sessionID": "ses_0e68caab1ffenMatJTEY8PDQne",
+              "part": {
+                "id": "prt_f19736b7d001ESXPk8fN1A1bhi",
+                "messageID": "msg_f1973589c001PPdOhfZ4g1YCVG",
+                "sessionID": "ses_0e68caab1ffenMatJTEY8PDQne",
+                "type": "text",
+                "text": "```tsx\nimport { useState, useEffect, useRef, useCallback } from \"react\";\n\ninterface CountdownTimerProps {\n  seconds: number;\n  onExpire?: () => void;\n}\n\nexport function CountdownTimer({ seconds, onExpire }: CountdownTimerProps) {\n  const [remaining, setRemaining] = useState(seconds);\n  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);\n  const onExpireRef = useRef(onExpire);\n  onExpireRef.current = onExpire;\n\n  const clear = useCallback(() => {\n    if (intervalRef.current !== null) {\n      clearInterval(intervalRef.current);\n      intervalRef.current = null;\n    }\n  }, []);\n\n  useEffect(() => {\n    if (remaining <= 0) {\n      clear();\n      onExpireRef.current?.();\n      return;\n    }\n    intervalRef.current = setInterval(() => {\n      setRemaining((prev) => {\n        if (prev <= 1) {\n          clear();\n          onExpireRef.current?.();\n          return 0;\n        }\n        return prev - 1;\n      });\n    }, 1000);\n    return clear;\n  }, [remaining, clear]);\n\n  const minutes = Math.floor(remaining / 60);\n  const secs = remaining % 60;\n\n  return (\n    <span>\n      {String(minutes).padStart(2, \"0\")}:{String(secs).padStart(2, \"0\")}\n    </span>\n  );\n}\n```",
+                "time": {
+                  "start": 1782838422397,
+                  "end": 1782838424354
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782838424391,
+              "sessionID": "ses_0e68caab1ffenMatJTEY8PDQne",
+              "part": {
+                "id": "prt_f1973734400126L2GB35ausr2M",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f1973589c001PPdOhfZ4g1YCVG",
+                "sessionID": "ses_0e68caab1ffenMatJTEY8PDQne",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 31579,
+                  "input": 31213,
+                  "output": 327,
+                  "reasoning": 39,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.0044723
+              }
+            }
+          ]
+        }
+      ],
+      "rate-limit": [
+        {
+          "exit_code": 0,
+          "time": 69.8,
+          "loc": 21,
+          "response": "```python\n# Install: pip install slowapi\n\nfrom slowapi import Limiter, _rate_limit_exceeded_handler\nfrom slowapi.util import get_remote_address\nfrom fastapi import FastAPI\n\nlimiter = Limiter(key_func=get_remote_address)\napp = FastAPI()\napp.state.limiter = limiter\napp.add_exception_handler(429, _rate_limit_exceeded_handler)\n\n@app.get(\"/your-endpoint\")\n@limiter.limit(\"5/minute\")\ndef endpoint(request: Request):\n    return {\"ok\": True}\n```\n\nIf you prefer `fastapi-limiter` + Redis:\n\n```python\n# Install: pip install fastapi-limiter redis\n\nimport redis.asyncio as redis\nfrom fastapi_limiter import FastAPILimiter\nfrom fastapi_limiter.depends import RateLimiter\n\n@app.on_event(\"startup\")\nasync def startup():\n    r = redis.from_url(\"redis://localhost\", encoding=\"utf-8\")\n    await FastAPILimiter.init(r)\n\n@app.get(\"/your-endpoint\", dependencies=[Depends(RateLimiter(times=5, seconds=60))])\nasync def endpoint():\n    return {\"ok\": True}\n```",
+          "tokens": {
+            "total": 31464,
+            "input": 31162,
+            "output": 252,
+            "reasoning": 50,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.00444724,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782836695304,
+              "sessionID": "ses_0e6a6fdb4ffemoushF0bC507Lj",
+              "part": {
+                "id": "prt_f195911040014Y2YY1ZUJvLQGN",
+                "messageID": "msg_f195904cc001WVQr6URTGsU2l7",
+                "sessionID": "ses_0e6a6fdb4ffemoushF0bC507Lj",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782836698725,
+              "sessionID": "ses_0e6a6fdb4ffemoushF0bC507Lj",
+              "part": {
+                "id": "prt_f19591721001oiW3gqTDmNyCKU",
+                "messageID": "msg_f195904cc001WVQr6URTGsU2l7",
+                "sessionID": "ses_0e6a6fdb4ffemoushF0bC507Lj",
+                "type": "text",
+                "text": "```python\n# Install: pip install slowapi\n\nfrom slowapi import Limiter, _rate_limit_exceeded_handler\nfrom slowapi.util import get_remote_address\nfrom fastapi import FastAPI\n\nlimiter = Limiter(key_func=get_remote_address)\napp = FastAPI()\napp.state.limiter = limiter\napp.add_exception_handler(429, _rate_limit_exceeded_handler)\n\n@app.get(\"/your-endpoint\")\n@limiter.limit(\"5/minute\")\ndef endpoint(request: Request):\n    return {\"ok\": True}\n```\n\nIf you prefer `fastapi-limiter` + Redis:\n\n```python\n# Install: pip install fastapi-limiter redis\n\nimport redis.asyncio as redis\nfrom fastapi_limiter import FastAPILimiter\nfrom fastapi_limiter.depends import RateLimiter\n\n@app.on_event(\"startup\")\nasync def startup():\n    r = redis.from_url(\"redis://localhost\", encoding=\"utf-8\")\n    await FastAPILimiter.init(r)\n\n@app.get(\"/your-endpoint\", dependencies=[Depends(RateLimiter(times=5, seconds=60))])\nasync def endpoint():\n    return {\"ok\": True}\n```",
+                "time": {
+                  "start": 1782836696865,
+                  "end": 1782836698720
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782836698754,
+              "sessionID": "ses_0e6a6fdb4ffemoushF0bC507Lj",
+              "part": {
+                "id": "prt_f19591e7f001n6PDyNpQdZFBZE",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f195904cc001WVQr6URTGsU2l7",
+                "sessionID": "ses_0e6a6fdb4ffemoushF0bC507Lj",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 31464,
+                  "input": 31162,
+                  "output": 252,
+                  "reasoning": 50,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.00444724
+              }
+            }
+          ]
+        },
+        {
+          "exit_code": 0,
+          "time": 71.2,
+          "loc": 11,
+          "response": "```python\n# Install: pip install slowapi\n\nfrom slowapi import Limiter, _rate_limit_exceeded_handler\nfrom slowapi.util import get_remote_address\nfrom fastapi import FastAPI\n\nlimiter = Limiter(key_func=get_remote_address)\n\napp = FastAPI()\napp.state.limiter = limiter\napp.add_exception_handler(429, _rate_limit_exceeded_handler)\n\n@app.get(\"/endpoint\")\n@limiter.limit(\"5/minute\")\nasync def my_endpoint(request: Request):\n    return {\"message\": \"ok\"}\n```\n\nFor user-based (not IP) limits, swap `get_remote_address` for a function that extracts the user ID from your auth token.",
+          "tokens": {
+            "total": 31445,
+            "input": 31232,
+            "output": 148,
+            "reasoning": 65,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.00443212,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782837596583,
+              "sessionID": "ses_0e6993daeffekj9upKf25pnVOB",
+              "part": {
+                "id": "prt_f1966d1a5001fW0o2AVji2FPzH",
+                "messageID": "msg_f1966c4da001S2ZaGON23FVOhS",
+                "sessionID": "ses_0e6993daeffekj9upKf25pnVOB",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782837599804,
+              "sessionID": "ses_0e6993daeffekj9upKf25pnVOB",
+              "part": {
+                "id": "prt_f1966d83e001f8bzpY12PH5QvJ",
+                "messageID": "msg_f1966c4da001S2ZaGON23FVOhS",
+                "sessionID": "ses_0e6993daeffekj9upKf25pnVOB",
+                "type": "text",
+                "text": "```python\n# Install: pip install slowapi\n\nfrom slowapi import Limiter, _rate_limit_exceeded_handler\nfrom slowapi.util import get_remote_address\nfrom fastapi import FastAPI\n\nlimiter = Limiter(key_func=get_remote_address)\n\napp = FastAPI()\napp.state.limiter = limiter\napp.add_exception_handler(429, _rate_limit_exceeded_handler)\n\n@app.get(\"/endpoint\")\n@limiter.limit(\"5/minute\")\nasync def my_endpoint(request: Request):\n    return {\"message\": \"ok\"}\n```\n\nFor user-based (not IP) limits, swap `get_remote_address` for a function that extracts the user ID from your auth token.",
+                "time": {
+                  "start": 1782837598270,
+                  "end": 1782837599801
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782837599829,
+              "sessionID": "ses_0e6993daeffekj9upKf25pnVOB",
+              "part": {
+                "id": "prt_f1966de52001HU3vSamfpBBHa3",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f1966c4da001S2ZaGON23FVOhS",
+                "sessionID": "ses_0e6993daeffekj9upKf25pnVOB",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 31445,
+                  "input": 31232,
+                  "output": 148,
+                  "reasoning": 65,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.00443212
+              }
+            }
+          ]
+        },
+        {
+          "exit_code": 0,
+          "time": 72.5,
+          "loc": 12,
+          "response": "```python\n# requirements.txt: add slowapi\n\nfrom fastapi import FastAPI, Request\nfrom slowapi import Limiter, _rate_limit_exceeded_handler\nfrom slowapi.util import get_remote_address\nfrom slowapi.errors import RateLimitExceeded\n\nlimiter = Limiter(key_func=get_remote_address)\napp = FastAPI()\napp.state.limiter = limiter\napp.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)\n\n@app.get(\"/spammy-endpoint\")\n@limiter.limit(\"5/minute\")\nasync def my_endpoint(request: Request):\n    return {\"message\": \"Not spammy\"}\n```",
+          "tokens": {
+            "total": 31415,
+            "input": 31214,
+            "output": 141,
+            "reasoning": 60,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.00442624,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782838493596,
+              "sessionID": "ses_0e68b8c8effeAPlXD5KiG5KaUx",
+              "part": {
+                "id": "prt_f197481990019fpJZLvQt6WeCY",
+                "messageID": "msg_f197475a0001z4CSc9L9Ty377D",
+                "sessionID": "ses_0e68b8c8effeAPlXD5KiG5KaUx",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782838496885,
+              "sessionID": "ses_0e68b8c8effeAPlXD5KiG5KaUx",
+              "part": {
+                "id": "prt_f197489af001mFXC5w3NFeUSG1",
+                "messageID": "msg_f197475a0001z4CSc9L9Ty377D",
+                "sessionID": "ses_0e68b8c8effeAPlXD5KiG5KaUx",
+                "type": "text",
+                "text": "```python\n# requirements.txt: add slowapi\n\nfrom fastapi import FastAPI, Request\nfrom slowapi import Limiter, _rate_limit_exceeded_handler\nfrom slowapi.util import get_remote_address\nfrom slowapi.errors import RateLimitExceeded\n\nlimiter = Limiter(key_func=get_remote_address)\napp = FastAPI()\napp.state.limiter = limiter\napp.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)\n\n@app.get(\"/spammy-endpoint\")\n@limiter.limit(\"5/minute\")\nasync def my_endpoint(request: Request):\n    return {\"message\": \"Not spammy\"}\n```",
+                "time": {
+                  "start": 1782838495663,
+                  "end": 1782838496881
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782838496918,
+              "sessionID": "ses_0e68b8c8effeAPlXD5KiG5KaUx",
+              "part": {
+                "id": "prt_f19748e9300190X4vlJPhYxa36",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f197475a0001z4CSc9L9Ty377D",
+                "sessionID": "ses_0e68b8c8effeAPlXD5KiG5KaUx",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 31415,
+                  "input": 31214,
+                  "output": 141,
+                  "reasoning": 60,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.00442624
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "caveman": {
+      "email": [
+        {
+          "exit_code": 0,
+          "time": 70.8,
+          "loc": 6,
+          "response": "```python\nimport re\n\ndef is_valid_email(email: str) -> bool:\n    if not isinstance(email, str) or not email:\n        return False\n    pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'\n    return bool(re.match(pattern, email))\n```",
+          "tokens": {
+            "total": 32215,
+            "input": 32101,
+            "output": 81,
+            "reasoning": 33,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.00452606,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782836767671,
+              "sessionID": "ses_0e6a5e290ffeDra4zTsaoER4zC",
+              "part": {
+                "id": "prt_f195a2bb5001zG8UlZtW983XPL",
+                "messageID": "msg_f195a1fac001RrzxP0FG5oXeh0",
+                "sessionID": "ses_0e6a5e290ffeDra4zTsaoER4zC",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782836769521,
+              "sessionID": "ses_0e6a5e290ffeDra4zTsaoER4zC",
+              "part": {
+                "id": "prt_f195a30f8001kD49DakWz0w7C2",
+                "messageID": "msg_f195a1fac001RrzxP0FG5oXeh0",
+                "sessionID": "ses_0e6a5e290ffeDra4zTsaoER4zC",
+                "type": "text",
+                "text": "```python\nimport re\n\ndef is_valid_email(email: str) -> bool:\n    if not isinstance(email, str) or not email:\n        return False\n    pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'\n    return bool(re.match(pattern, email))\n```",
+                "time": {
+                  "start": 1782836769016,
+                  "end": 1782836769517
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782836769551,
+              "sessionID": "ses_0e6a5e290ffeDra4zTsaoER4zC",
+              "part": {
+                "id": "prt_f195a330c001L9WzFtV41juCDv",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f195a1fac001RrzxP0FG5oXeh0",
+                "sessionID": "ses_0e6a5e290ffeDra4zTsaoER4zC",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 32215,
+                  "input": 32101,
+                  "output": 81,
+                  "reasoning": 33,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.00452606
+              }
+            }
+          ]
+        },
+        {
+          "exit_code": 0,
+          "time": 70.3,
+          "loc": 8,
+          "response": "```python\nimport re\n\nEMAIL_RE = re.compile(r'^[a-zA-Z0-9.!#$%&\\'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\\.[a-zA-Z]{2,}$')\n\ndef is_valid_email(email: str) -> bool:\n    if not isinstance(email, str):\n        return False\n    if len(email) > 254:\n        return False\n    return bool(EMAIL_RE.match(email))\n```",
+          "tokens": {
+            "total": 32383,
+            "input": 32184,
+            "output": 159,
+            "reasoning": 40,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.00456148,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782837667454,
+              "sessionID": "ses_0e69829a3ffexgPBy0GPkQfrPa",
+              "part": {
+                "id": "prt_f1967e67d001Ohr9I05Pb3KefK",
+                "messageID": "msg_f1967d9e9001DXw3Fo7hyDahOO",
+                "sessionID": "ses_0e69829a3ffexgPBy0GPkQfrPa",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782837670147,
+              "sessionID": "ses_0e69829a3ffexgPBy0GPkQfrPa",
+              "part": {
+                "id": "prt_f1967eda4001nMzvAsOXAFqC3N",
+                "messageID": "msg_f1967d9e9001DXw3Fo7hyDahOO",
+                "sessionID": "ses_0e69829a3ffexgPBy0GPkQfrPa",
+                "type": "text",
+                "text": "```python\nimport re\n\nEMAIL_RE = re.compile(r'^[a-zA-Z0-9.!#$%&\\'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\\.[a-zA-Z]{2,}$')\n\ndef is_valid_email(email: str) -> bool:\n    if not isinstance(email, str):\n        return False\n    if len(email) > 254:\n        return False\n    return bool(EMAIL_RE.match(email))\n```",
+                "time": {
+                  "start": 1782837669284,
+                  "end": 1782837670145
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782837670172,
+              "sessionID": "ses_0e69829a3ffexgPBy0GPkQfrPa",
+              "part": {
+                "id": "prt_f1967f1190014QJ3rcDWXakudf",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f1967d9e9001DXw3Fo7hyDahOO",
+                "sessionID": "ses_0e69829a3ffexgPBy0GPkQfrPa",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 32383,
+                  "input": 32184,
+                  "output": 159,
+                  "reasoning": 40,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.00456148
+              }
+            }
+          ]
+        },
+        {
+          "exit_code": 0,
+          "time": 69.9,
+          "loc": 4,
+          "response": "```python\nimport re\n\ndef validate_email(email: str) -> bool:\n    pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'\n    return bool(re.match(pattern, email))\n```",
+          "tokens": {
+            "total": 32254,
+            "input": 32141,
+            "output": 64,
+            "reasoning": 49,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.00453138,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782838564764,
+              "sessionID": "ses_0e68a77c0ffef3O3jDLQYRPdNb",
+              "part": {
+                "id": "prt_f19759799001uyOSmA2e3nC0Cc",
+                "messageID": "msg_f19758a66001Qt1LGkEhfwjnXK",
+                "sessionID": "ses_0e68a77c0ffef3O3jDLQYRPdNb",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782838566805,
+              "sessionID": "ses_0e68a77c0ffef3O3jDLQYRPdNb",
+              "part": {
+                "id": "prt_f19759e4b001lKVuCSqey6r2QS",
+                "messageID": "msg_f19758a66001Qt1LGkEhfwjnXK",
+                "sessionID": "ses_0e68a77c0ffef3O3jDLQYRPdNb",
+                "type": "text",
+                "text": "```python\nimport re\n\ndef validate_email(email: str) -> bool:\n    pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'\n    return bool(re.match(pattern, email))\n```",
+                "time": {
+                  "start": 1782838566475,
+                  "end": 1782838566800
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782838566835,
+              "sessionID": "ses_0e68a77c0ffef3O3jDLQYRPdNb",
+              "part": {
+                "id": "prt_f19759fb100169GF4JCVD3q0di",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f19758a66001Qt1LGkEhfwjnXK",
+                "sessionID": "ses_0e68a77c0ffef3O3jDLQYRPdNb",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 32254,
+                  "input": 32141,
+                  "output": 64,
+                  "reasoning": 49,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.00453138
+              }
+            }
+          ]
+        }
+      ],
+      "debounce": [
+        {
+          "exit_code": 0,
+          "time": 74.5,
+          "loc": 11,
+          "response": "```js\nfunction debounce(fn, delay) {\n  let timer;\n  return function (...args) {\n    clearTimeout(timer);\n    timer = setTimeout(() => fn.apply(this, args), delay);\n  };\n}\n\nconst searchInput = document.getElementById('search');\nsearchInput.addEventListener('input', debounce(async (e) => {\n  const results = await fetch(`/api/search?q=${encodeURIComponent(e.target.value)}`);\n  // render results\n}, 300));\n```",
+          "tokens": {
+            "total": 32242,
+            "input": 32109,
+            "output": 101,
+            "reasoning": 32,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.0045325,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782836841838,
+              "sessionID": "ses_0e6a4c659ffeW1bygM1sCIEJ6w",
+              "part": {
+                "id": "prt_f195b4d6b001h5Oz1Xk4jbvVx2",
+                "messageID": "msg_f195b3ccb001Ydq9aiu9iId2kZ",
+                "sessionID": "ses_0e6a4c659ffeW1bygM1sCIEJ6w",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782836844053,
+              "sessionID": "ses_0e6a4c659ffeW1bygM1sCIEJ6w",
+              "part": {
+                "id": "prt_f195b532b001YjC45PpngBVuSW",
+                "messageID": "msg_f195b3ccb001Ydq9aiu9iId2kZ",
+                "sessionID": "ses_0e6a4c659ffeW1bygM1sCIEJ6w",
+                "type": "text",
+                "text": "```js\nfunction debounce(fn, delay) {\n  let timer;\n  return function (...args) {\n    clearTimeout(timer);\n    timer = setTimeout(() => fn.apply(this, args), delay);\n  };\n}\n\nconst searchInput = document.getElementById('search');\nsearchInput.addEventListener('input', debounce(async (e) => {\n  const results = await fetch(`/api/search?q=${encodeURIComponent(e.target.value)}`);\n  // render results\n}, 300));\n```",
+                "time": {
+                  "start": 1782836843307,
+                  "end": 1782836844048
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782836844084,
+              "sessionID": "ses_0e6a4c659ffeW1bygM1sCIEJ6w",
+              "part": {
+                "id": "prt_f195b5631001w2bDxzkigLCxEq",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f195b3ccb001Ydq9aiu9iId2kZ",
+                "sessionID": "ses_0e6a4c659ffeW1bygM1sCIEJ6w",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 32242,
+                  "input": 32109,
+                  "output": 101,
+                  "reasoning": 32,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.0045325
+              }
+            }
+          ]
+        },
+        {
+          "exit_code": 0,
+          "time": 70.3,
+          "loc": 12,
+          "response": "```javascript\nfunction debounce(fn, delay) {\n  let timer;\n  return function(...args) {\n    clearTimeout(timer);\n    timer = setTimeout(() => fn.apply(this, args), delay);\n  };\n}\n\nconst searchInput = document.getElementById('search');\nconst handleSearch = debounce(async (e) => {\n  const results = await fetch(`/api/search?q=${e.target.value}`);\n  // render results\n}, 300);\n\nsearchInput.addEventListener('input', handleSearch);\n```",
+          "tokens": {
+            "total": 32295,
+            "input": 32151,
+            "output": 104,
+            "reasoning": 40,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.00454146,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782837737668,
+              "sessionID": "ses_0e6971627ffeaYqzUdXJGSTrAn",
+              "part": {
+                "id": "prt_f1968f8c1001wLkCJws3al35zu",
+                "messageID": "msg_f1968ebff001pT3JXmK5yAbNLs",
+                "sessionID": "ses_0e6971627ffeaYqzUdXJGSTrAn",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782837740332,
+              "sessionID": "ses_0e6971627ffeaYqzUdXJGSTrAn",
+              "part": {
+                "id": "prt_f196900690010Zydl6a425ELWh",
+                "messageID": "msg_f1968ebff001pT3JXmK5yAbNLs",
+                "sessionID": "ses_0e6971627ffeaYqzUdXJGSTrAn",
+                "type": "text",
+                "text": "```javascript\nfunction debounce(fn, delay) {\n  let timer;\n  return function(...args) {\n    clearTimeout(timer);\n    timer = setTimeout(() => fn.apply(this, args), delay);\n  };\n}\n\nconst searchInput = document.getElementById('search');\nconst handleSearch = debounce(async (e) => {\n  const results = await fetch(`/api/search?q=${e.target.value}`);\n  // render results\n}, 300);\n\nsearchInput.addEventListener('input', handleSearch);\n```",
+                "time": {
+                  "start": 1782837739625,
+                  "end": 1782837740329
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782837740519,
+              "sessionID": "ses_0e6971627ffeaYqzUdXJGSTrAn",
+              "part": {
+                "id": "prt_f196903e40017joob6R6Etf6Ec",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f1968ebff001pT3JXmK5yAbNLs",
+                "sessionID": "ses_0e6971627ffeaYqzUdXJGSTrAn",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 32295,
+                  "input": 32151,
+                  "output": 104,
+                  "reasoning": 40,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.00454146
+              }
+            }
+          ]
+        },
+        {
+          "exit_code": 0,
+          "time": 70.8,
+          "loc": 12,
+          "response": "```js\nfunction debounce(fn, delay) {\n  let timer\n  return (...args) => {\n    clearTimeout(timer)\n    timer = setTimeout(() => fn(...args), delay)\n  }\n}\n\nconst searchInput = document.getElementById('search')\nconst handleSearch = debounce((e) => {\n  fetch(`/api/search?q=${e.target.value}`)\n}, 300)\n\nsearchInput.addEventListener('input', handleSearch)\n```",
+          "tokens": {
+            "total": 32301,
+            "input": 32155,
+            "output": 93,
+            "reasoning": 53,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.00454258,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782838635729,
+              "sessionID": "ses_0e6896327ffejJDNL0pibJnIqR",
+              "part": {
+                "id": "prt_f1976accc001Dutnry38CZ9mtp",
+                "messageID": "msg_f19769f46001PYDeRlBLOwQWn8",
+                "sessionID": "ses_0e6896327ffejJDNL0pibJnIqR",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782838637589,
+              "sessionID": "ses_0e6896327ffejJDNL0pibJnIqR",
+              "part": {
+                "id": "prt_f1976b1e1001U7djgw6BH7wG7V",
+                "messageID": "msg_f19769f46001PYDeRlBLOwQWn8",
+                "sessionID": "ses_0e6896327ffejJDNL0pibJnIqR",
+                "type": "text",
+                "text": "```js\nfunction debounce(fn, delay) {\n  let timer\n  return (...args) => {\n    clearTimeout(timer)\n    timer = setTimeout(() => fn(...args), delay)\n  }\n}\n\nconst searchInput = document.getElementById('search')\nconst handleSearch = debounce((e) => {\n  fetch(`/api/search?q=${e.target.value}`)\n}, 300)\n\nsearchInput.addEventListener('input', handleSearch)\n```",
+                "time": {
+                  "start": 1782838637025,
+                  "end": 1782838637585
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782838637614,
+              "sessionID": "ses_0e6896327ffejJDNL0pibJnIqR",
+              "part": {
+                "id": "prt_f1976b42c0014R8BEhJpCXFh9V",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f19769f46001PYDeRlBLOwQWn8",
+                "sessionID": "ses_0e6896327ffejJDNL0pibJnIqR",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 32301,
+                  "input": 32155,
+                  "output": 93,
+                  "reasoning": 53,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.00454258
+              }
+            }
+          ]
+        }
+      ],
+      "csv-sum": [
+        {
+          "exit_code": 0,
+          "time": 69.1,
+          "loc": 4,
+          "response": "```python\nimport csv\n\nwith open(\"sales.csv\") as f:\n    total = sum(int(r[\"amount\"]) for r in csv.DictReader(f))\n\nprint(total)\n```",
+          "tokens": {
+            "total": 32151,
+            "input": 32056,
+            "output": 38,
+            "reasoning": 57,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.00451444,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782836911306,
+              "sessionID": "ses_0e6a3b33affe4GAyqaV6Z4RzHz",
+              "part": {
+                "id": "prt_f195c5cc8001hHtvQkn1uxK7Dh",
+                "messageID": "msg_f195c4fa6001MDhBDLBT9q6S45",
+                "sessionID": "ses_0e6a3b33affe4GAyqaV6Z4RzHz",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782836913119,
+              "sessionID": "ses_0e6a3b33affe4GAyqaV6Z4RzHz",
+              "part": {
+                "id": "prt_f195c62ec0016fijhAe5TsAgfH",
+                "messageID": "msg_f195c4fa6001MDhBDLBT9q6S45",
+                "sessionID": "ses_0e6a3b33affe4GAyqaV6Z4RzHz",
+                "type": "text",
+                "text": "```python\nimport csv\n\nwith open(\"sales.csv\") as f:\n    total = sum(int(r[\"amount\"]) for r in csv.DictReader(f))\n\nprint(total)\n```",
+                "time": {
+                  "start": 1782836912876,
+                  "end": 1782836913115
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782836913153,
+              "sessionID": "ses_0e6a3b33affe4GAyqaV6Z4RzHz",
+              "part": {
+                "id": "prt_f195c63fd001QwFtVkglB3UdRp",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f195c4fa6001MDhBDLBT9q6S45",
+                "sessionID": "ses_0e6a3b33affe4GAyqaV6Z4RzHz",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 32151,
+                  "input": 32056,
+                  "output": 38,
+                  "reasoning": 57,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.00451444
+              }
+            }
+          ]
+        },
+        {
+          "exit_code": 0,
+          "time": 70.0,
+          "loc": 3,
+          "response": "```python\nimport csv\n\nwith open('sales.csv') as f:\n    total = sum(int(r['amount']) for r in csv.DictReader(f))\n```",
+          "tokens": {
+            "total": 32206,
+            "input": 32145,
+            "output": 35,
+            "reasoning": 26,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.00451738,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782837808702,
+              "sessionID": "ses_0e6960078ffeP1meyAlwFjRwJu",
+              "part": {
+                "id": "prt_f196a0e3d001bb9iS9I8HBOrA5",
+                "messageID": "msg_f196a01e9001x5MM1ie3Uf7yAH",
+                "sessionID": "ses_0e6960078ffeP1meyAlwFjRwJu",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782837810495,
+              "sessionID": "ses_0e6960078ffeP1meyAlwFjRwJu",
+              "part": {
+                "id": "prt_f196a13f8001eWvXBKMpHYAiEa",
+                "messageID": "msg_f196a01e9001x5MM1ie3Uf7yAH",
+                "sessionID": "ses_0e6960078ffeP1meyAlwFjRwJu",
+                "type": "text",
+                "text": "```python\nimport csv\n\nwith open('sales.csv') as f:\n    total = sum(int(r['amount']) for r in csv.DictReader(f))\n```",
+                "time": {
+                  "start": 1782837810169,
+                  "end": 1782837810490
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782837810525,
+              "sessionID": "ses_0e6960078ffeP1meyAlwFjRwJu",
+              "part": {
+                "id": "prt_f196a155900134x8yVOGFsTT8d",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f196a01e9001x5MM1ie3Uf7yAH",
+                "sessionID": "ses_0e6960078ffeP1meyAlwFjRwJu",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 32206,
+                  "input": 32145,
+                  "output": 35,
+                  "reasoning": 26,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.00451738
+              }
+            }
+          ]
+        },
+        {
+          "exit_code": 0,
+          "time": 68.4,
+          "loc": 4,
+          "response": "```python\nimport csv\n\nwith open(\"sales.csv\") as f:\n    total = sum(int(r[\"amount\"]) for r in csv.DictReader(f))\n\nprint(total)\n```",
+          "tokens": {
+            "total": 32264,
+            "input": 32176,
+            "output": 38,
+            "reasoning": 50,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.00452928,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782838704073,
+              "sessionID": "ses_0e68856b4ffe3oEdEi1o1t0e7e",
+              "part": {
+                "id": "prt_f1977b7c8001o1Sq35T5hcUjMv",
+                "messageID": "msg_f1977ab930010fk5A7zCVFWI04",
+                "sessionID": "ses_0e68856b4ffe3oEdEi1o1t0e7e",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782838706077,
+              "sessionID": "ses_0e68856b4ffe3oEdEi1o1t0e7e",
+              "part": {
+                "id": "prt_f1977bee9001MZEAcswHknC5by",
+                "messageID": "msg_f1977ab930010fk5A7zCVFWI04",
+                "sessionID": "ses_0e68856b4ffe3oEdEi1o1t0e7e",
+                "type": "text",
+                "text": "```python\nimport csv\n\nwith open(\"sales.csv\") as f:\n    total = sum(int(r[\"amount\"]) for r in csv.DictReader(f))\n\nprint(total)\n```",
+                "time": {
+                  "start": 1782838705897,
+                  "end": 1782838706074
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782838706099,
+              "sessionID": "ses_0e68856b4ffe3oEdEi1o1t0e7e",
+              "part": {
+                "id": "prt_f1977bfb1001ot5zRdR8FyaL6o",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f1977ab930010fk5A7zCVFWI04",
+                "sessionID": "ses_0e68856b4ffe3oEdEi1o1t0e7e",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 32264,
+                  "input": 32176,
+                  "output": 38,
+                  "reasoning": 50,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.00452928
+              }
+            }
+          ]
+        }
+      ],
+      "countdown": [
+        {
+          "exit_code": 0,
+          "time": 11.2,
+          "loc": 53,
+          "response": "```tsx\nimport { useState, useEffect, useCallback, useRef } from 'react';\n\ninterface CountdownTimerProps {\n  initialSeconds: number;\n  onComplete?: () => void;\n}\n\nfunction CountdownTimer({ initialSeconds, onComplete }: CountdownTimerProps) {\n  const [timeLeft, setTimeLeft] = useState(initialSeconds);\n  const [isRunning, setIsRunning] = useState(false);\n  const onCompleteRef = useRef(onComplete);\n  onCompleteRef.current = onComplete;\n\n  useEffect(() => {\n    if (!isRunning || timeLeft <= 0) return;\n    const id = setInterval(() => {\n      setTimeLeft((t) => {\n        if (t <= 1) {\n          clearInterval(id);\n          setIsRunning(false);\n          onCompleteRef.current?.();\n          return 0;\n        }\n        return t - 1;\n      });\n    }, 1000);\n    return () => clearInterval(id);\n  }, [isRunning, timeLeft]);\n\n  const start = useCallback(() => setIsRunning(true), []);\n  const pause = useCallback(() => setIsRunning(false), []);\n  const reset = useCallback(() => {\n    setIsRunning(false);\n    setTimeLeft(initialSeconds);\n  }, [initialSeconds]);\n\n  const minutes = Math.floor(timeLeft / 60);\n  const seconds = timeLeft % 60;\n  const display = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;\n\n  return (\n    <div>\n      <div style={{ fontSize: '3rem', fontVariantNumeric: 'tabular-nums' }}>\n        {display}\n      </div>\n      {timeLeft > 0 ? (\n        isRunning ? (\n          <button onClick={pause}>Pause</button>\n        ) : (\n          <button onClick={start}>Start</button>\n        )\n      ) : (\n        <span>Time's up!</span>\n      )}\n      <button onClick={reset}>Reset</button>\n    </div>\n  );\n}\n\nexport default CountdownTimer;\n```",
+          "tokens": {
+            "total": 32747,
+            "input": 32215,
+            "output": 443,
+            "reasoning": 89,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.00465906,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782836919746,
+              "sessionID": "ses_0e6a39090ffe7kcb2DmHT4UrWD",
+              "part": {
+                "id": "prt_f195c7dbe001x7k0QWhdkSKCU4",
+                "messageID": "msg_f195c71a1001pBhb60ECGGQS29",
+                "sessionID": "ses_0e6a39090ffe7kcb2DmHT4UrWD",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782836924288,
+              "sessionID": "ses_0e6a39090ffe7kcb2DmHT4UrWD",
+              "part": {
+                "id": "prt_f195c85bf001f4EhECimH93N05",
+                "messageID": "msg_f195c71a1001pBhb60ECGGQS29",
+                "sessionID": "ses_0e6a39090ffe7kcb2DmHT4UrWD",
+                "type": "text",
+                "text": "```tsx\nimport { useState, useEffect, useCallback, useRef } from 'react';\n\ninterface CountdownTimerProps {\n  initialSeconds: number;\n  onComplete?: () => void;\n}\n\nfunction CountdownTimer({ initialSeconds, onComplete }: CountdownTimerProps) {\n  const [timeLeft, setTimeLeft] = useState(initialSeconds);\n  const [isRunning, setIsRunning] = useState(false);\n  const onCompleteRef = useRef(onComplete);\n  onCompleteRef.current = onComplete;\n\n  useEffect(() => {\n    if (!isRunning || timeLeft <= 0) return;\n    const id = setInterval(() => {\n      setTimeLeft((t) => {\n        if (t <= 1) {\n          clearInterval(id);\n          setIsRunning(false);\n          onCompleteRef.current?.();\n          return 0;\n        }\n        return t - 1;\n      });\n    }, 1000);\n    return () => clearInterval(id);\n  }, [isRunning, timeLeft]);\n\n  const start = useCallback(() => setIsRunning(true), []);\n  const pause = useCallback(() => setIsRunning(false), []);\n  const reset = useCallback(() => {\n    setIsRunning(false);\n    setTimeLeft(initialSeconds);\n  }, [initialSeconds]);\n\n  const minutes = Math.floor(timeLeft / 60);\n  const seconds = timeLeft % 60;\n  const display = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;\n\n  return (\n    <div>\n      <div style={{ fontSize: '3rem', fontVariantNumeric: 'tabular-nums' }}>\n        {display}\n      </div>\n      {timeLeft > 0 ? (\n        isRunning ? (\n          <button onClick={pause}>Pause</button>\n        ) : (\n          <button onClick={start}>Start</button>\n        )\n      ) : (\n        <span>Time's up!</span>\n      )}\n      <button onClick={reset}>Reset</button>\n    </div>\n  );\n}\n\nexport default CountdownTimer;\n```",
+                "time": {
+                  "start": 1782836921791,
+                  "end": 1782836924284
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782836924319,
+              "sessionID": "ses_0e6a39090ffe7kcb2DmHT4UrWD",
+              "part": {
+                "id": "prt_f195c8f9c0011OoaGFWHLC6PcR",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f195c71a1001pBhb60ECGGQS29",
+                "sessionID": "ses_0e6a39090ffe7kcb2DmHT4UrWD",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 32747,
+                  "input": 32215,
+                  "output": 443,
+                  "reasoning": 89,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.00465906
+              }
+            }
+          ]
+        },
+        {
+          "exit_code": 0,
+          "time": 76.6,
+          "loc": 70,
+          "response": "```tsx\nimport { useState, useEffect, useRef, useCallback } from 'react';\n\ninterface CountdownTimerProps {\n  seconds: number;\n  onComplete?: () => void;\n  onTick?: (remaining: number) => void;\n  autoStart?: boolean;\n  interval?: number;\n}\n\nexport function CountdownTimer({\n  seconds,\n  onComplete,\n  onTick,\n  autoStart = true,\n  interval = 1000,\n}: CountdownTimerProps) {\n  const [remaining, setRemaining] = useState(seconds);\n  const [running, setRunning] = useState(autoStart);\n  const savedCallback = useRef(onComplete);\n  const savedTick = useRef(onTick);\n  const startTimeRef = useRef(0);\n  const elapsedRef = useRef(0);\n\n  savedCallback.current = onComplete;\n  savedTick.current = onTick;\n\n  useEffect(() => {\n    if (!running || remaining <= 0) return;\n\n    startTimeRef.current = Date.now();\n    elapsedRef.current = seconds - remaining;\n\n    const id = setInterval(() => {\n      const elapsed = elapsedRef.current + (Date.now() - startTimeRef.current);\n      const next = Math.max(0, seconds - Math.floor(elapsed / interval) * (interval / 1000) * 1000);\n      // simpler: compute remaining from elapsed ms\n      const msElapsed = elapsedRef.current + (Date.now() - startTimeRef.current);\n      const secs = Math.max(0, seconds - Math.floor(msElapsed / 1000));\n\n      if (secs !== remaining) {\n        setRemaining(secs);\n        savedTick.current?.(secs);\n      }\n\n      if (secs <= 0) {\n        clearInterval(id);\n        setRunning(false);\n        savedCallback.current?.();\n      }\n    }, interval);\n\n    return () => clearInterval(id);\n  }, [running, seconds, interval]);\n\n  const start = useCallback(() => setRunning(true), []);\n  const pause = useCallback(() => {\n    setRunning(false);\n    elapsedRef.current += Date.now() - startTimeRef.current;\n  }, []);\n  const reset = useCallback(() => {\n    setRunning(false);\n    setRemaining(seconds);\n    elapsedRef.current = 0;\n  }, [seconds]);\n\n  const progress = seconds > 0 ? remaining / seconds : 0;\n\n  return (\n    <div>\n      <div>{remaining}s</div>\n      <progress value={progress} />\n      <div>\n        {!running ? (\n          <button onClick={start}>Start</button>\n        ) : (\n          <button onClick={pause}>Pause</button>\n        )}\n        <button onClick={reset}>Reset</button>\n      </div>\n    </div>\n  );\n}\n```",
+          "tokens": {
+            "total": 32780,
+            "input": 32162,
+            "output": 590,
+            "reasoning": 28,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.00467572,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782837881347,
+              "sessionID": "ses_0e694e59affelOsFwMaUDi9NCD",
+              "part": {
+                "id": "prt_f196b2a01001bsjYw7soPWXwyo",
+                "messageID": "msg_f196b1cee001dmgjJ5ZHlu5cSa",
+                "sessionID": "ses_0e694e59affelOsFwMaUDi9NCD",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782837887082,
+              "sessionID": "ses_0e694e59affelOsFwMaUDi9NCD",
+              "part": {
+                "id": "prt_f196b3176001NoDiORIbHiPydf",
+                "messageID": "msg_f196b1cee001dmgjJ5ZHlu5cSa",
+                "sessionID": "ses_0e694e59affelOsFwMaUDi9NCD",
+                "type": "text",
+                "text": "```tsx\nimport { useState, useEffect, useRef, useCallback } from 'react';\n\ninterface CountdownTimerProps {\n  seconds: number;\n  onComplete?: () => void;\n  onTick?: (remaining: number) => void;\n  autoStart?: boolean;\n  interval?: number;\n}\n\nexport function CountdownTimer({\n  seconds,\n  onComplete,\n  onTick,\n  autoStart = true,\n  interval = 1000,\n}: CountdownTimerProps) {\n  const [remaining, setRemaining] = useState(seconds);\n  const [running, setRunning] = useState(autoStart);\n  const savedCallback = useRef(onComplete);\n  const savedTick = useRef(onTick);\n  const startTimeRef = useRef(0);\n  const elapsedRef = useRef(0);\n\n  savedCallback.current = onComplete;\n  savedTick.current = onTick;\n\n  useEffect(() => {\n    if (!running || remaining <= 0) return;\n\n    startTimeRef.current = Date.now();\n    elapsedRef.current = seconds - remaining;\n\n    const id = setInterval(() => {\n      const elapsed = elapsedRef.current + (Date.now() - startTimeRef.current);\n      const next = Math.max(0, seconds - Math.floor(elapsed / interval) * (interval / 1000) * 1000);\n      // simpler: compute remaining from elapsed ms\n      const msElapsed = elapsedRef.current + (Date.now() - startTimeRef.current);\n      const secs = Math.max(0, seconds - Math.floor(msElapsed / 1000));\n\n      if (secs !== remaining) {\n        setRemaining(secs);\n        savedTick.current?.(secs);\n      }\n\n      if (secs <= 0) {\n        clearInterval(id);\n        setRunning(false);\n        savedCallback.current?.();\n      }\n    }, interval);\n\n    return () => clearInterval(id);\n  }, [running, seconds, interval]);\n\n  const start = useCallback(() => setRunning(true), []);\n  const pause = useCallback(() => {\n    setRunning(false);\n    elapsedRef.current += Date.now() - startTimeRef.current;\n  }, []);\n  const reset = useCallback(() => {\n    setRunning(false);\n    setRemaining(seconds);\n    elapsedRef.current = 0;\n  }, [seconds]);\n\n  const progress = seconds > 0 ? remaining / seconds : 0;\n\n  return (\n    <div>\n      <div>{remaining}s</div>\n      <progress value={progress} />\n      <div>\n        {!running ? (\n          <button onClick={start}>Start</button>\n        ) : (\n          <button onClick={pause}>Pause</button>\n        )}\n        <button onClick={reset}>Reset</button>\n      </div>\n    </div>\n  );\n}\n```",
+                "time": {
+                  "start": 1782837883254,
+                  "end": 1782837887076
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782837887112,
+              "sessionID": "ses_0e694e59affelOsFwMaUDi9NCD",
+              "part": {
+                "id": "prt_f196b4085001caSE68VcfndMVK",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f196b1cee001dmgjJ5ZHlu5cSa",
+                "sessionID": "ses_0e694e59affelOsFwMaUDi9NCD",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 32780,
+                  "input": 32162,
+                  "output": 590,
+                  "reasoning": 28,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.00467572
+              }
+            }
+          ]
+        },
+        {
+          "exit_code": 0,
+          "time": 11.4,
+          "loc": 49,
+          "response": "```tsx\nimport { useState, useEffect, useCallback } from 'react'\n\ninterface CountdownTimerProps {\n  seconds: number\n  onComplete?: () => void\n  autoStart?: boolean\n}\n\nexport function CountdownTimer({ seconds: initial, onComplete, autoStart = true }: CountdownTimerProps) {\n  const [remaining, setRemaining] = useState(initial)\n  const [running, setRunning] = useState(autoStart)\n\n  useEffect(() => {\n    if (!running || remaining <= 0) return\n\n    const id = setInterval(() => {\n      setRemaining((prev) => {\n        if (prev <= 1) {\n          clearInterval(id)\n          setRunning(false)\n          onComplete?.()\n          return 0\n        }\n        return prev - 1\n      })\n    }, 1000)\n\n    return () => clearInterval(id)\n  }, [running, remaining, onComplete])\n\n  const reset = useCallback(() => {\n    setRemaining(initial)\n    setRunning(autoStart)\n  }, [initial, autoStart])\n\n  const pause = useCallback(() => setRunning(false), [])\n  const resume = useCallback(() => setRunning(remaining > 0), [remaining])\n\n  const minutes = Math.floor(remaining / 60)\n  const secs = remaining % 60\n  const display = `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`\n\n  return (\n    <div className=\"countdown-timer\">\n      <span className={remaining <= 10 ? 'countdown-warning' : ''}>\n        {display}\n      </span>\n      <div className=\"countdown-controls\">\n        {running ? (\n          <button onClick={pause} disabled={remaining <= 0}>Pause</button>\n        ) : remaining > 0 ? (\n          <button onClick={resume}>Resume</button>\n        ) : null}\n        <button onClick={reset}>Reset</button>\n      </div>\n    </div>\n  )\n}\n```",
+          "tokens": {
+            "total": 32691,
+            "input": 32170,
+            "output": 437,
+            "reasoning": 84,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.00464968,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782838712601,
+              "sessionID": "ses_0e68834c7ffewp19yvM0kmoFE8",
+              "part": {
+                "id": "prt_f1977d917001EwDGyMTEe2nh52",
+                "messageID": "msg_f1977cd9c001Iwp3011TN73HbD",
+                "sessionID": "ses_0e68834c7ffewp19yvM0kmoFE8",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782838717431,
+              "sessionID": "ses_0e68834c7ffewp19yvM0kmoFE8",
+              "part": {
+                "id": "prt_f1977e1ba001jjQBRgnd4ABbxP",
+                "messageID": "msg_f1977cd9c001Iwp3011TN73HbD",
+                "sessionID": "ses_0e68834c7ffewp19yvM0kmoFE8",
+                "type": "text",
+                "text": "```tsx\nimport { useState, useEffect, useCallback } from 'react'\n\ninterface CountdownTimerProps {\n  seconds: number\n  onComplete?: () => void\n  autoStart?: boolean\n}\n\nexport function CountdownTimer({ seconds: initial, onComplete, autoStart = true }: CountdownTimerProps) {\n  const [remaining, setRemaining] = useState(initial)\n  const [running, setRunning] = useState(autoStart)\n\n  useEffect(() => {\n    if (!running || remaining <= 0) return\n\n    const id = setInterval(() => {\n      setRemaining((prev) => {\n        if (prev <= 1) {\n          clearInterval(id)\n          setRunning(false)\n          onComplete?.()\n          return 0\n        }\n        return prev - 1\n      })\n    }, 1000)\n\n    return () => clearInterval(id)\n  }, [running, remaining, onComplete])\n\n  const reset = useCallback(() => {\n    setRemaining(initial)\n    setRunning(autoStart)\n  }, [initial, autoStart])\n\n  const pause = useCallback(() => setRunning(false), [])\n  const resume = useCallback(() => setRunning(remaining > 0), [remaining])\n\n  const minutes = Math.floor(remaining / 60)\n  const secs = remaining % 60\n  const display = `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`\n\n  return (\n    <div className=\"countdown-timer\">\n      <span className={remaining <= 10 ? 'countdown-warning' : ''}>\n        {display}\n      </span>\n      <div className=\"countdown-controls\">\n        {running ? (\n          <button onClick={pause} disabled={remaining <= 0}>Pause</button>\n        ) : remaining > 0 ? (\n          <button onClick={resume}>Resume</button>\n        ) : null}\n        <button onClick={reset}>Reset</button>\n      </div>\n    </div>\n  )\n}\n```",
+                "time": {
+                  "start": 1782838714810,
+                  "end": 1782838717426
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782838717468,
+              "sessionID": "ses_0e68834c7ffewp19yvM0kmoFE8",
+              "part": {
+                "id": "prt_f1977ec1a001tOJEkRjdgYVV4I",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f1977cd9c001Iwp3011TN73HbD",
+                "sessionID": "ses_0e68834c7ffewp19yvM0kmoFE8",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 32691,
+                  "input": 32170,
+                  "output": 437,
+                  "reasoning": 84,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.00464968
+              }
+            }
+          ]
+        }
+      ],
+      "rate-limit": [
+        {
+          "exit_code": 0,
+          "time": 69.9,
+          "loc": 12,
+          "response": "```python\nfrom slowapi import Limiter, _rate_limit_exceeded_handler\nfrom slowapi.util import get_remote_address\nfrom fastapi import FastAPI\n\nlimiter = Limiter(key_func=get_remote_address)\napp = FastAPI()\napp.state.limiter = limiter\napp.add_exception_handler(429, _rate_limit_exceeded_handler)\n\n@app.get(\"/endpoint\")\n@limiter.limit(\"5/minute\")\nasync def my_endpoint(request: Request):\n    return {\"ok\": True}\n```\n\nAlso need dep in pyproject.toml:\n\n```\nslowapi\n```\n\nOr `pip install slowapi`.",
+          "tokens": {
+            "total": 32392,
+            "input": 32203,
+            "output": 132,
+            "reasoning": 57,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.00456134,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782836991538,
+              "sessionID": "ses_0e6a277b9ffevisxP36albSZxM",
+              "part": {
+                "id": "prt_f195d962d001lutM06WDzJQzFt",
+                "messageID": "msg_f195d8a71001wA7Imxb5k4ssDm",
+                "sessionID": "ses_0e6a277b9ffevisxP36albSZxM",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782836994174,
+              "sessionID": "ses_0e6a277b9ffevisxP36albSZxM",
+              "part": {
+                "id": "prt_f195d9c97001v66qE8jOLm8fa0",
+                "messageID": "msg_f195d8a71001wA7Imxb5k4ssDm",
+                "sessionID": "ses_0e6a277b9ffevisxP36albSZxM",
+                "type": "text",
+                "text": "```python\nfrom slowapi import Limiter, _rate_limit_exceeded_handler\nfrom slowapi.util import get_remote_address\nfrom fastapi import FastAPI\n\nlimiter = Limiter(key_func=get_remote_address)\napp = FastAPI()\napp.state.limiter = limiter\napp.add_exception_handler(429, _rate_limit_exceeded_handler)\n\n@app.get(\"/endpoint\")\n@limiter.limit(\"5/minute\")\nasync def my_endpoint(request: Request):\n    return {\"ok\": True}\n```\n\nAlso need dep in pyproject.toml:\n\n```\nslowapi\n```\n\nOr `pip install slowapi`.",
+                "time": {
+                  "start": 1782836993175,
+                  "end": 1782836994170
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782836994203,
+              "sessionID": "ses_0e6a277b9ffevisxP36albSZxM",
+              "part": {
+                "id": "prt_f195da098001Dq6Z0Afe1kr4Ju",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f195d8a71001wA7Imxb5k4ssDm",
+                "sessionID": "ses_0e6a277b9ffevisxP36albSZxM",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 32392,
+                  "input": 32203,
+                  "output": 132,
+                  "reasoning": 57,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.00456134
+              }
+            }
+          ]
+        },
+        {
+          "exit_code": 0,
+          "time": 73.5,
+          "loc": 21,
+          "response": "**Option 1: slowapi (in-memory, no deps)**\n\n```python\n# pip install slowapi\nfrom slowapi import Limiter, _rate_limit_exceeded_handler\nfrom slowapi.util import get_remote_address\nfrom fastapi import FastAPI\n\nlimiter = Limiter(key_func=get_remote_address)\napp = FastAPI()\napp.state.limiter = limiter\napp.add_exception_handler(429, _rate_limit_exceeded_handler)\n\n@app.get(\"/users\")\n@limiter.limit(\"5/minute\")\nasync def get_users(request: Request):\n    return {\"data\": \"ok\"}\n```\n\n**Option 2: fastapi-limiter (Redis, production)**\n\n```python\n# pip install fastapi-limiter redis\nimport redis.asyncio as aioredis\nfrom fastapi_limiter import FastAPILimiter\nfrom fastapi_limiter.depends import RateLimiter\n\n@app.on_event(\"startup\")\nasync def startup():\n    redis = aioredis.from_url(\"redis://localhost\")\n    await FastAPILimiter.init(redis)\n\n@app.get(\"/users\", dependencies=[Depends(RateLimiter(times=5, seconds=60))])\nasync def get_users():\n    return {\"data\": \"ok\"}\n```\n\nPick option 1 for single-server apps, option 2 for multi-replica/Redis-backed.",
+          "tokens": {
+            "total": 32607,
+            "input": 32169,
+            "output": 286,
+            "reasoning": 152,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.0046263,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782837955253,
+              "sessionID": "ses_0e693c60fffeXNWkeBuQj8v55X",
+              "part": {
+                "id": "prt_f196c4ab4001jm4gwKIrjCOBds",
+                "messageID": "msg_f196c3c86001XXuV010IqjlP79",
+                "sessionID": "ses_0e693c60fffeXNWkeBuQj8v55X",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782837960437,
+              "sessionID": "ses_0e693c60fffeXNWkeBuQj8v55X",
+              "part": {
+                "id": "prt_f196c56c9001FkygkQwUOV8nIs",
+                "messageID": "msg_f196c3c86001XXuV010IqjlP79",
+                "sessionID": "ses_0e693c60fffeXNWkeBuQj8v55X",
+                "type": "text",
+                "text": "**Option 1: slowapi (in-memory, no deps)**\n\n```python\n# pip install slowapi\nfrom slowapi import Limiter, _rate_limit_exceeded_handler\nfrom slowapi.util import get_remote_address\nfrom fastapi import FastAPI\n\nlimiter = Limiter(key_func=get_remote_address)\napp = FastAPI()\napp.state.limiter = limiter\napp.add_exception_handler(429, _rate_limit_exceeded_handler)\n\n@app.get(\"/users\")\n@limiter.limit(\"5/minute\")\nasync def get_users(request: Request):\n    return {\"data\": \"ok\"}\n```\n\n**Option 2: fastapi-limiter (Redis, production)**\n\n```python\n# pip install fastapi-limiter redis\nimport redis.asyncio as aioredis\nfrom fastapi_limiter import FastAPILimiter\nfrom fastapi_limiter.depends import RateLimiter\n\n@app.on_event(\"startup\")\nasync def startup():\n    redis = aioredis.from_url(\"redis://localhost\")\n    await FastAPILimiter.init(redis)\n\n@app.get(\"/users\", dependencies=[Depends(RateLimiter(times=5, seconds=60))])\nasync def get_users():\n    return {\"data\": \"ok\"}\n```\n\nPick option 1 for single-server apps, option 2 for multi-replica/Redis-backed.",
+                "time": {
+                  "start": 1782837958345,
+                  "end": 1782837960433
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782837960488,
+              "sessionID": "ses_0e693c60fffeXNWkeBuQj8v55X",
+              "part": {
+                "id": "prt_f196c5f23001p3A4GLYzYupC8S",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f196c3c86001XXuV010IqjlP79",
+                "sessionID": "ses_0e693c60fffeXNWkeBuQj8v55X",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 32607,
+                  "input": 32169,
+                  "output": 286,
+                  "reasoning": 152,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.0046263
+              }
+            }
+          ]
+        },
+        {
+          "exit_code": 0,
+          "time": 78.4,
+          "loc": 14,
+          "response": "```python\n# pip install slowapi\nfrom fastapi import FastAPI, Request\nfrom slowapi import Limiter, _rate_limit_exceeded_handler\nfrom slowapi.errors import RateLimitExceeded\nfrom slowapi.middleware import SlowAPIASGIMiddleware\nfrom slowapi.util import get_remote_address\n\napp = FastAPI()\nlimiter = Limiter(key_func=get_remote_address)\n\napp.add_middleware(SlowAPIASGIMiddleware)\napp.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)\napp.state.limiter = limiter\n\n@app.get(\"/spammy-endpoint\")\n@limiter.limit(\"5/minute\")\nasync def your_endpoint(request: Request):\n    return {\"ok\": True}\n```\n\n`pip install slowapi`. Add `limiter` + middleware + exception handler on app. Decorate endpoint with `@limiter.limit(\"N/period\")`. Keyed by client IP by default. 429 returned on exceed.",
+          "tokens": {
+            "total": 33923,
+            "input": 1182,
+            "output": 214,
+            "reasoning": 15,
+            "cache": {
+              "write": 0,
+              "read": 32512
+            }
+          },
+          "cost": 0.0003206336,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782838784939,
+              "sessionID": "ses_0e6871d3affeMm0LndI3MQXQLw",
+              "part": {
+                "id": "prt_f1978f3a9001IHTLXxy79fZ3c8",
+                "messageID": "msg_f1978e78c001X0K1sMa3FAq4bz",
+                "sessionID": "ses_0e6871d3affeMm0LndI3MQXQLw",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "tool_use",
+              "timestamp": 1782838788053,
+              "sessionID": "ses_0e6871d3affeMm0LndI3MQXQLw",
+              "part": {
+                "type": "tool",
+                "tool": "context7_resolve-library-id",
+                "callID": "call_00_0tw8DkQHuIn0C9dFnBCn7715",
+                "state": {
+                  "status": "completed",
+                  "input": {
+                    "query": "FastAPI rate limiting with slowapi",
+                    "libraryName": "slowapi"
+                  },
+                  "output": "Available Libraries:\n\n- Title: SlowAPI\n- Context7-compatible library ID: /laurents/slowapi\n- Description: A rate limiter for Starlette and FastAPI\n- Code Snippets: 445\n- Source Reputation: High\n- Benchmark Score: 92.44\n----------\n- Title: SlowAPI\n- Context7-compatible library ID: /websites/slowapi_readthedocs_io_en\n- Description: SlowAPI is a rate limiting library for Starlette and FastAPI, adapted from flask-limiter, supporting various backends and async endpoints.\n- Code Snippets: 18\n- Source Reputation: High\n- Benchmark Score: 84.13",
+                  "metadata": {
+                    "truncated": false
+                  },
+                  "title": "",
+                  "time": {
+                    "start": 1782838787002,
+                    "end": 1782838788047
+                  }
+                },
+                "id": "prt_f1978fada001eUzFDuq3j83a6e",
+                "sessionID": "ses_0e6871d3affeMm0LndI3MQXQLw",
+                "messageID": "msg_f1978e78c001X0K1sMa3FAq4bz"
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782838788084,
+              "sessionID": "ses_0e6871d3affeMm0LndI3MQXQLw",
+              "part": {
+                "id": "prt_f1978fff0001pjtJBrbWpo0fpg",
+                "reason": "tool-calls",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f1978e78c001X0K1sMa3FAq4bz",
+                "sessionID": "ses_0e6871d3affeMm0LndI3MQXQLw",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 32346,
+                  "input": 32217,
+                  "output": 72,
+                  "reasoning": 57,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.0045465
+              }
+            },
+            {
+              "type": "step_start",
+              "timestamp": 1782838789048,
+              "sessionID": "ses_0e6871d3affeMm0LndI3MQXQLw",
+              "part": {
+                "id": "prt_f197903b5001ojOmQxwFD0GWGw",
+                "messageID": "msg_f1979000a001eBwjsHmoDeDvM5",
+                "sessionID": "ses_0e6871d3affeMm0LndI3MQXQLw",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "tool_use",
+              "timestamp": 1782838792070,
+              "sessionID": "ses_0e6871d3affeMm0LndI3MQXQLw",
+              "part": {
+                "type": "tool",
+                "tool": "context7_query-docs",
+                "callID": "call_00_pSiKC7xKSGkfKaV1R7pD1668",
+                "state": {
+                  "status": "completed",
+                  "input": {
+                    "libraryId": "/laurents/slowapi",
+                    "query": "how to add rate limiting to a FastAPI endpoint, basic usage with Limiter and @limiter.limit"
+                  },
+                  "output": "### Basic FastAPI App with SlowAPI\n\nSource: https://github.com/laurents/slowapi/blob/master/_autodocs/README.md\n\nA minimal FastAPI application demonstrating SlowAPI integration for rate limiting. Ensure to add the middleware and exception handler, and initialize the limiter.\n\n```python\nfrom fastapi import FastAPI, Request\nfrom slowapi import Limiter, _rate_limit_exceeded_handler\nfrom slowapi.errors import RateLimitExceeded\nfrom slowapi.middleware import SlowAPIASGIMiddleware\nfrom slowapi.util import get_remote_address\n\napp = FastAPI()\nlimiter = Limiter(key_func=get_remote_address)\n\napp.add_middleware(SlowAPIASGIMiddleware)\napp.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)\napp.state.limiter = limiter\n\n@app.get(\"/api/data\")\n@limiter.limit(\"100/minute\")\nasync def get_data(request: Request):\n    return {\"data\": []}\n```\n\n--------------------------------\n\n### Cost-Based Limiting in FastAPI\n\nSource: https://github.com/laurents/slowapi/blob/master/_autodocs/INTEGRATION_GUIDE.md\n\nImplement cost-based rate limiting by defining custom cost functions for different endpoints. This example shows charging based on upload size and request complexity.\n\n```python\nfrom fastapi import FastAPI, Request, UploadFile, File\nfrom slowapi import Limiter\nfrom slowapi.errors import RateLimitExceeded\nfrom slowapi.middleware import SlowAPIASGIMiddleware\nfrom slowapi.util import get_remote_address\n\napp = FastAPI()\n\n# Calculate cost based on request characteristics\nasync def get_upload_cost(request: Request) -> int:\n    # Get body size as cost\n    try:\n        body = await request.body()\n        # 1 point per 1MB\n        return max(1, len(body) // (1024 * 1024))\n    except:\n        return 1\n\ndef get_compute_cost(request: Request) -> int:\n    # Charge more for complex requests\n    complexity = request.headers.get(\"X-Complexity\", \"low\")\n    costs = {\"low\": 1, \"medium\": 5, \"high\": 10}\n    return costs.get(complexity, 1)\n\nlimiter = Limiter(\n    key_func=get_remote_address,\n    default_limits=[\"1000/hour\"]  # Cost units per hour\n)\n\napp.add_middleware(SlowAPIASGIMiddleware)\napp.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)\napp.state.limiter = limiter\n\n@app.post(\"/api/upload\")\n@limiter.limit(\"100/hour\", cost=get_upload_cost)\nasync def upload(request: Request, file: UploadFile):\n    return {\"uploaded\": file.filename}\n\n@app.post(\"/api/compute\")\n@limiter.limit(\"1000/hour\", cost=get_compute_cost)\nasync def compute(request: Request, data: dict):\n    return {\"computed\": data}\n```\n\n--------------------------------\n\n### Valid Rate Limit Configuration\n\nSource: https://github.com/laurents/slowapi/blob/master/_autodocs/api-reference/errors.md\n\nUse this format to apply a valid rate limit to an endpoint. The limit is applied during decorator initialization.\n\n```python\nfrom slowapi import Limiter\nfrom slowapi.middleware import SlowAPIMiddleware\nfrom starlette.requests import Request\n\nlimiter = Limiter()\n\n@limiter.limit(\"10/minute\")  # Valid\nasync def endpoint1(request: Request):\n    pass\n```\n\n--------------------------------\n\n### Multiple Rate Limits\n\nSource: https://github.com/laurents/slowapi/blob/master/_autodocs/RATE_LIMIT_STRINGS.md\n\nApply multiple rate limits (per second, minute, and hour) to an endpoint. The request must satisfy all limits.\n\n```python\nimport asyncio\nfrom starlette.requests import Request\n\nfrom slowapi import Limiter\nfrom slowapi.util import get_remote_address\n\nlimiter = Limiter(key_func=get_remote_address)\n\n\n# Request must satisfy all limits to proceed\n@limiter.limit(\"10/second;100/minute;1000/hour\")\nasync def comprehensive_limit(request: Request):\n    pass\n```\n\n--------------------------------\n\n### Stacked Rate Limit Decorators\n\nSource: https://github.com/laurents/slowapi/blob/master/_autodocs/RATE_LIMIT_STRINGS.md\n\nMultiple '@limiter.limit()' decorators can be stacked on a single endpoint. This combines the limits, effectively acting as if they were specified in a single decorator with semicolon-separated values.\n\n```python\n@limiter.limit(\"100/minute\")\n@limiter.limit(\"1000/hour\")\nasync def endpoint(request: Request):\n    pass\n\n# Equivalent to: @limiter.limit(\"100/minute;1000/hour\")\n```",
+                  "metadata": {
+                    "truncated": false
+                  },
+                  "title": "",
+                  "time": {
+                    "start": 1782838790534,
+                    "end": 1782838792065
+                  }
+                },
+                "id": "prt_f197907a9001wRTCVR1LgcQ7tc",
+                "sessionID": "ses_0e6871d3affeMm0LndI3MQXQLw",
+                "messageID": "msg_f1979000a001eBwjsHmoDeDvM5"
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782838792106,
+              "sessionID": "ses_0e6871d3affeMm0LndI3MQXQLw",
+              "part": {
+                "id": "prt_f19790fa8001g8LlJhLY09VKsn",
+                "reason": "tool-calls",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f1979000a001eBwjsHmoDeDvM5",
+                "sessionID": "ses_0e6871d3affeMm0LndI3MQXQLw",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 32627,
+                  "input": 268,
+                  "output": 91,
+                  "reasoning": 12,
+                  "cache": {
+                    "write": 0,
+                    "read": 32256
+                  }
+                },
+                "cost": 0.0001566768
+              }
+            },
+            {
+              "type": "step_start",
+              "timestamp": 1782838793063,
+              "sessionID": "ses_0e6871d3affeMm0LndI3MQXQLw",
+              "part": {
+                "id": "prt_f19791360001y2mqBIT9SXyhiG",
+                "messageID": "msg_f19790fbf001io4p6VRTNgXAyR",
+                "sessionID": "ses_0e6871d3affeMm0LndI3MQXQLw",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782838795899,
+              "sessionID": "ses_0e6871d3affeMm0LndI3MQXQLw",
+              "part": {
+                "id": "prt_f197917d1001HXIzwKjtUVNfuT",
+                "messageID": "msg_f19790fbf001io4p6VRTNgXAyR",
+                "sessionID": "ses_0e6871d3affeMm0LndI3MQXQLw",
+                "type": "text",
+                "text": "```python\n# pip install slowapi\nfrom fastapi import FastAPI, Request\nfrom slowapi import Limiter, _rate_limit_exceeded_handler\nfrom slowapi.errors import RateLimitExceeded\nfrom slowapi.middleware import SlowAPIASGIMiddleware\nfrom slowapi.util import get_remote_address\n\napp = FastAPI()\nlimiter = Limiter(key_func=get_remote_address)\n\napp.add_middleware(SlowAPIASGIMiddleware)\napp.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)\napp.state.limiter = limiter\n\n@app.get(\"/spammy-endpoint\")\n@limiter.limit(\"5/minute\")\nasync def your_endpoint(request: Request):\n    return {\"ok\": True}\n```\n\n`pip install slowapi`. Add `limiter` + middleware + exception handler on app. Decorate endpoint with `@limiter.limit(\"N/period\")`. Keyed by client IP by default. 429 returned on exceed.",
+                "time": {
+                  "start": 1782838794193,
+                  "end": 1782838795897
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782838795921,
+              "sessionID": "ses_0e6871d3affeMm0LndI3MQXQLw",
+              "part": {
+                "id": "prt_f19791e8f001K4ydkoPVjp2KEb",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f19790fbf001io4p6VRTNgXAyR",
+                "sessionID": "ses_0e6871d3affeMm0LndI3MQXQLw",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 33923,
+                  "input": 1182,
+                  "output": 214,
+                  "reasoning": 15,
+                  "cache": {
+                    "write": 0,
+                    "read": 32512
+                  }
+                },
+                "cost": 0.0003206336
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "graybeard": {
+      "email": [
+        {
+          "exit_code": 0,
+          "time": 10.5,
+          "loc": 18,
+          "response": "```python\nfrom email.utils import parseaddr\nimport re\n\n\ndef is_valid_email(email: str) -> bool:\n    if not isinstance(email, str) or not email:\n        return False\n\n    addr = parseaddr(email)[1]\n\n    if \"@\" not in addr:\n        return False\n\n    local, domain = addr.rsplit(\"@\", 1)\n\n    if not local or not domain:\n        return False\n\n    if domain.startswith(\".\") or domain.endswith(\".\"):\n        return False\n\n    if \"..\" in domain:\n        return False\n\n    if len(domain) < 4 or \".\" not in domain[1:-1]:\n        return False\n\n    return True\n```",
+          "tokens": {
+            "total": 32467,
+            "input": 32225,
+            "output": 146,
+            "reasoning": 96,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.00457926,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782837001123,
+              "sessionID": "ses_0e6a253d2ffeHyuKdEujPtqSli",
+              "part": {
+                "id": "prt_f195dbba1001g54vZ8vEo99Zgv",
+                "messageID": "msg_f195dae6b001YSIKRJVGvXrx4M",
+                "sessionID": "ses_0e6a253d2ffeHyuKdEujPtqSli",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782837004715,
+              "sessionID": "ses_0e6a253d2ffeHyuKdEujPtqSli",
+              "part": {
+                "id": "prt_f195dc5b9001FU415qChIVZBiS",
+                "messageID": "msg_f195dae6b001YSIKRJVGvXrx4M",
+                "sessionID": "ses_0e6a253d2ffeHyuKdEujPtqSli",
+                "type": "text",
+                "text": "```python\nfrom email.utils import parseaddr\nimport re\n\n\ndef is_valid_email(email: str) -> bool:\n    if not isinstance(email, str) or not email:\n        return False\n\n    addr = parseaddr(email)[1]\n\n    if \"@\" not in addr:\n        return False\n\n    local, domain = addr.rsplit(\"@\", 1)\n\n    if not local or not domain:\n        return False\n\n    if domain.startswith(\".\") or domain.endswith(\".\"):\n        return False\n\n    if \"..\" in domain:\n        return False\n\n    if len(domain) < 4 or \".\" not in domain[1:-1]:\n        return False\n\n    return True\n```",
+                "time": {
+                  "start": 1782837003705,
+                  "end": 1782837004712
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782837004739,
+              "sessionID": "ses_0e6a253d2ffeHyuKdEujPtqSli",
+              "part": {
+                "id": "prt_f195dc9c1001jKVm5n6411nCwY",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f195dae6b001YSIKRJVGvXrx4M",
+                "sessionID": "ses_0e6a253d2ffeHyuKdEujPtqSli",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 32467,
+                  "input": 32225,
+                  "output": 146,
+                  "reasoning": 96,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.00457926
+              }
+            }
+          ]
+        },
+        {
+          "exit_code": 0,
+          "time": 11.7,
+          "loc": 11,
+          "response": "```python\nimport re\n\nEMAIL_RE = re.compile(r\"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$\")\n\ndef validate_email(email: str) -> bool:\n    if not isinstance(email, str) or not email:\n        return False\n    if len(email) > 254:\n        return False\n    local, _, domain = email.partition(\"@\")\n    if not domain or not local or len(local) > 64:\n        return False\n    return EMAIL_RE.match(email) is not None\n```",
+          "tokens": {
+            "total": 32509,
+            "input": 32228,
+            "output": 189,
+            "reasoning": 92,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.0045906,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782837968834,
+              "sessionID": "ses_0e6938ee4ffez4zPyjAeecgnw7",
+              "part": {
+                "id": "prt_f196c7fc0001ir1nwMGKZ84Mun",
+                "messageID": "msg_f196c73760017pBJK3Cuj3tdqD",
+                "sessionID": "ses_0e6938ee4ffez4zPyjAeecgnw7",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782837972216,
+              "sessionID": "ses_0e6938ee4ffez4zPyjAeecgnw7",
+              "part": {
+                "id": "prt_f196c8840001kOH53TxvyJlguA",
+                "messageID": "msg_f196c73760017pBJK3Cuj3tdqD",
+                "sessionID": "ses_0e6938ee4ffez4zPyjAeecgnw7",
+                "type": "text",
+                "text": "```python\nimport re\n\nEMAIL_RE = re.compile(r\"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$\")\n\ndef validate_email(email: str) -> bool:\n    if not isinstance(email, str) or not email:\n        return False\n    if len(email) > 254:\n        return False\n    local, _, domain = email.partition(\"@\")\n    if not domain or not local or len(local) > 64:\n        return False\n    return EMAIL_RE.match(email) is not None\n```",
+                "time": {
+                  "start": 1782837971008,
+                  "end": 1782837972213
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782837972244,
+              "sessionID": "ses_0e6938ee4ffez4zPyjAeecgnw7",
+              "part": {
+                "id": "prt_f196c8d12001F2xBqG8NBjt8Ab",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f196c73760017pBJK3Cuj3tdqD",
+                "sessionID": "ses_0e6938ee4ffez4zPyjAeecgnw7",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 32509,
+                  "input": 32228,
+                  "output": 189,
+                  "reasoning": 92,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.0045906
+              }
+            }
+          ]
+        },
+        {
+          "exit_code": 0,
+          "time": 79.5,
+          "loc": 14,
+          "response": "```python\nimport re\nfrom email.utils import parseaddr\n\n\ndef is_valid_email(address: str) -> bool:\n    _, addr = parseaddr(address)\n    if not addr:\n        return False\n    if '@' not in addr:\n        return False\n    local, domain = addr.rsplit('@', 1)\n    if not re.match(r'^[a-zA-Z0-9._%+-]+$', local):\n        return False\n    if not re.match(r'^[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$', domain):\n        return False\n    return True\n```\n\nUses `email.utils.parseaddr` (stdlib) instead of raw regex on the input string, so quoted local parts and whitespace stripping are handled correctly. Only stdlib \u2013 no dependency. Validates structural shape after parsing, which covers the vast majority of real-world addresses without over-engineering into RFC 5322 full compliance.",
+          "tokens": {
+            "total": 33059,
+            "input": 32241,
+            "output": 200,
+            "reasoning": 618,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.00474278,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782838865818,
+              "sessionID": "ses_0e685de92ffetGGzCbHjJPECPh",
+              "part": {
+                "id": "prt_f197a2f97001kgElx4GlshfQqi",
+                "messageID": "msg_f197a23ac001Ap8oAA5HqWIx0E",
+                "sessionID": "ses_0e685de92ffetGGzCbHjJPECPh",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782838875437,
+              "sessionID": "ses_0e685de92ffetGGzCbHjJPECPh",
+              "part": {
+                "id": "prt_f197a4e49001ILV0ictMTO4eW5",
+                "messageID": "msg_f197a23ac001Ap8oAA5HqWIx0E",
+                "sessionID": "ses_0e685de92ffetGGzCbHjJPECPh",
+                "type": "text",
+                "text": "```python\nimport re\nfrom email.utils import parseaddr\n\n\ndef is_valid_email(address: str) -> bool:\n    _, addr = parseaddr(address)\n    if not addr:\n        return False\n    if '@' not in addr:\n        return False\n    local, domain = addr.rsplit('@', 1)\n    if not re.match(r'^[a-zA-Z0-9._%+-]+$', local):\n        return False\n    if not re.match(r'^[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$', domain):\n        return False\n    return True\n```\n\nUses `email.utils.parseaddr` (stdlib) instead of raw regex on the input string, so quoted local parts and whitespace stripping are handled correctly. Only stdlib \u2013 no dependency. Validates structural shape after parsing, which covers the vast majority of real-world addresses without over-engineering into RFC 5322 full compliance.",
+                "time": {
+                  "start": 1782838873674,
+                  "end": 1782838875433
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782838875463,
+              "sessionID": "ses_0e685de92ffetGGzCbHjJPECPh",
+              "part": {
+                "id": "prt_f197a5545001bX4VbV7MdzsOF2",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f197a23ac001Ap8oAA5HqWIx0E",
+                "sessionID": "ses_0e685de92ffetGGzCbHjJPECPh",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 33059,
+                  "input": 32241,
+                  "output": 200,
+                  "reasoning": 618,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.00474278
+              }
+            }
+          ]
+        }
+      ],
+      "debounce": [
+        {
+          "exit_code": 0,
+          "time": 69.9,
+          "loc": 14,
+          "response": "```js\nfunction debounce(fn, delay) {\n  let timer;\n  return function (...args) {\n    clearTimeout(timer);\n    timer = setTimeout(() => fn.apply(this, args), delay);\n  };\n}\n\nconst searchInput = document.getElementById('search');\nconst handleSearch = debounce(async (event) => {\n  const query = event.target.value.trim();\n  if (!query) return;\n  const results = await fetch(`/api/search?q=${encodeURIComponent(query)}`);\n  // render results\n}, 300);\n\nsearchInput.addEventListener('input', handleSearch);\n```",
+          "tokens": {
+            "total": 32400,
+            "input": 32235,
+            "output": 122,
+            "reasoning": 43,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.0045591,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782837072262,
+              "sessionID": "ses_0e6a13d80ffe5RiNROgqMHChdd",
+              "part": {
+                "id": "prt_f195ed18400143NTGOOG0LArTK",
+                "messageID": "msg_f195ec550001tgbL14BQIgoCBc",
+                "sessionID": "ses_0e6a13d80ffe5RiNROgqMHChdd",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782837074547,
+              "sessionID": "ses_0e6a13d80ffe5RiNROgqMHChdd",
+              "part": {
+                "id": "prt_f195ed7a9001NK184HrvSihB1q",
+                "messageID": "msg_f195ec550001tgbL14BQIgoCBc",
+                "sessionID": "ses_0e6a13d80ffe5RiNROgqMHChdd",
+                "type": "text",
+                "text": "```js\nfunction debounce(fn, delay) {\n  let timer;\n  return function (...args) {\n    clearTimeout(timer);\n    timer = setTimeout(() => fn.apply(this, args), delay);\n  };\n}\n\nconst searchInput = document.getElementById('search');\nconst handleSearch = debounce(async (event) => {\n  const query = event.target.value.trim();\n  if (!query) return;\n  const results = await fetch(`/api/search?q=${encodeURIComponent(query)}`);\n  // render results\n}, 300);\n\nsearchInput.addEventListener('input', handleSearch);\n```",
+                "time": {
+                  "start": 1782837073833,
+                  "end": 1782837074544
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782837074578,
+              "sessionID": "ses_0e6a13d80ffe5RiNROgqMHChdd",
+              "part": {
+                "id": "prt_f195eda8d001X34jcTryQKSOZO",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f195ec550001tgbL14BQIgoCBc",
+                "sessionID": "ses_0e6a13d80ffe5RiNROgqMHChdd",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 32400,
+                  "input": 32235,
+                  "output": 122,
+                  "reasoning": 43,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.0045591
+              }
+            }
+          ]
+        },
+        {
+          "exit_code": 0,
+          "time": 72.9,
+          "loc": 12,
+          "response": "```javascript\nfunction debounce(fn, delay) {\n  let timer;\n  return function (...args) {\n    clearTimeout(timer);\n    timer = setTimeout(() => fn.apply(this, args), delay);\n  };\n}\n\n// Usage\nconst searchInput = document.getElementById('search');\nconst handleSearch = debounce(async (e) => {\n  const results = await fetch(`/api/search?q=${encodeURIComponent(e.target.value)}`);\n  // render results...\n}, 300);\n\nsearchInput.addEventListener('input', handleSearch);\n```",
+          "tokens": {
+            "total": 32445,
+            "input": 32252,
+            "output": 111,
+            "reasoning": 82,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.00456932,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782838042468,
+              "sessionID": "ses_0e6927375ffeA2yjZlB3w6QEqv",
+              "part": {
+                "id": "prt_f196d9f62001uvDsVtRBgDHmBW",
+                "messageID": "msg_f196d902e00132NALNavLvz5sJ",
+                "sessionID": "ses_0e6927375ffeA2yjZlB3w6QEqv",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782838045077,
+              "sessionID": "ses_0e6927375ffeA2yjZlB3w6QEqv",
+              "part": {
+                "id": "prt_f196da788001TcIcqLWarvq53v",
+                "messageID": "msg_f196d902e00132NALNavLvz5sJ",
+                "sessionID": "ses_0e6927375ffeA2yjZlB3w6QEqv",
+                "type": "text",
+                "text": "```javascript\nfunction debounce(fn, delay) {\n  let timer;\n  return function (...args) {\n    clearTimeout(timer);\n    timer = setTimeout(() => fn.apply(this, args), delay);\n  };\n}\n\n// Usage\nconst searchInput = document.getElementById('search');\nconst handleSearch = debounce(async (e) => {\n  const results = await fetch(`/api/search?q=${encodeURIComponent(e.target.value)}`);\n  // render results...\n}, 300);\n\nsearchInput.addEventListener('input', handleSearch);\n```",
+                "time": {
+                  "start": 1782838044553,
+                  "end": 1782838045071
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782838045115,
+              "sessionID": "ses_0e6927375ffeA2yjZlB3w6QEqv",
+              "part": {
+                "id": "prt_f196da9b5001LStMqbEG6cu8Qr",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f196d902e00132NALNavLvz5sJ",
+                "sessionID": "ses_0e6927375ffeA2yjZlB3w6QEqv",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 32445,
+                  "input": 32252,
+                  "output": 111,
+                  "reasoning": 82,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.00456932
+              }
+            }
+          ]
+        },
+        {
+          "exit_code": 0,
+          "time": 69.3,
+          "loc": 16,
+          "response": "```javascript\nfunction debounce(fn, delay) {\n  let timer;\n  return function (...args) {\n    clearTimeout(timer);\n    timer = setTimeout(() => fn.apply(this, args), delay);\n  };\n}\n\nconst searchInput = document.getElementById('search');\nconst handleSearch = debounce(async (e) => {\n  const query = e.target.value;\n  if (query.length > 2) {\n    const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`);\n    const data = await res.json();\n    // render results\n  }\n}, 300);\n\nsearchInput.addEventListener('input', handleSearch);\n```",
+          "tokens": {
+            "total": 32494,
+            "input": 32313,
+            "output": 134,
+            "reasoning": 47,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.0045745,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782838942211,
+              "sessionID": "ses_0e684b4d2ffeBf5SNmr2oUi9WA",
+              "part": {
+                "id": "prt_f197b59fe001FjogxYIT7ERzMU",
+                "messageID": "msg_f197b4dc9001OEukUhPQWeOXs7",
+                "sessionID": "ses_0e684b4d2ffeBf5SNmr2oUi9WA",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782838944746,
+              "sessionID": "ses_0e684b4d2ffeBf5SNmr2oUi9WA",
+              "part": {
+                "id": "prt_f197b603b0018yKCaICPMFZ1z5",
+                "messageID": "msg_f197b4dc9001OEukUhPQWeOXs7",
+                "sessionID": "ses_0e684b4d2ffeBf5SNmr2oUi9WA",
+                "type": "text",
+                "text": "```javascript\nfunction debounce(fn, delay) {\n  let timer;\n  return function (...args) {\n    clearTimeout(timer);\n    timer = setTimeout(() => fn.apply(this, args), delay);\n  };\n}\n\nconst searchInput = document.getElementById('search');\nconst handleSearch = debounce(async (e) => {\n  const query = e.target.value;\n  if (query.length > 2) {\n    const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`);\n    const data = await res.json();\n    // render results\n  }\n}, 300);\n\nsearchInput.addEventListener('input', handleSearch);\n```",
+                "time": {
+                  "start": 1782838943803,
+                  "end": 1782838944740
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782838944779,
+              "sessionID": "ses_0e684b4d2ffeBf5SNmr2oUi9WA",
+              "part": {
+                "id": "prt_f197b6408001hh5zcTIggo5qXc",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f197b4dc9001OEukUhPQWeOXs7",
+                "sessionID": "ses_0e684b4d2ffeBf5SNmr2oUi9WA",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 32494,
+                  "input": 32313,
+                  "output": 134,
+                  "reasoning": 47,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.0045745
+              }
+            }
+          ]
+        }
+      ],
+      "csv-sum": [
+        {
+          "exit_code": 0,
+          "time": 75.2,
+          "loc": 5,
+          "response": "```python\nimport csv\n\nwith open('sales.csv', newline='') as f:\n    reader = csv.DictReader(f)\n    total = sum(int(row['amount']) for row in reader)\n\nprint(total)\n```",
+          "tokens": {
+            "total": 32349,
+            "input": 32271,
+            "output": 47,
+            "reasoning": 31,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.00453978,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782837148042,
+              "sessionID": "ses_0e6a0150affeDBHzolchrhe3Hq",
+              "part": {
+                "id": "prt_f195ff986001IwB6LEJ6d6LDl7",
+                "messageID": "msg_f195fed43001YS5GFHz6c3mzzu",
+                "sessionID": "ses_0e6a0150affeDBHzolchrhe3Hq",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782837149761,
+              "sessionID": "ses_0e6a0150affeDBHzolchrhe3Hq",
+              "part": {
+                "id": "prt_f195fff4f001yuoVz2qXKxaScB",
+                "messageID": "msg_f195fed43001YS5GFHz6c3mzzu",
+                "sessionID": "ses_0e6a0150affeDBHzolchrhe3Hq",
+                "type": "text",
+                "text": "```python\nimport csv\n\nwith open('sales.csv', newline='') as f:\n    reader = csv.DictReader(f)\n    total = sum(int(row['amount']) for row in reader)\n\nprint(total)\n```",
+                "time": {
+                  "start": 1782837149519,
+                  "end": 1782837149758
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782837149788,
+              "sessionID": "ses_0e6a0150affeDBHzolchrhe3Hq",
+              "part": {
+                "id": "prt_f19600059001A7D5ZbPjR4pAiQ",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f195fed43001YS5GFHz6c3mzzu",
+                "sessionID": "ses_0e6a0150affeDBHzolchrhe3Hq",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 32349,
+                  "input": 32271,
+                  "output": 47,
+                  "reasoning": 31,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.00453978
+              }
+            }
+          ]
+        },
+        {
+          "exit_code": 0,
+          "time": 72.3,
+          "loc": 5,
+          "response": "```python\nimport csv\n\nwith open('sales.csv') as f:\n    reader = csv.DictReader(f)\n    total = sum(int(row['amount']) for row in reader)\n\nprint(total)\n```",
+          "tokens": {
+            "total": 32349,
+            "input": 32265,
+            "output": 43,
+            "reasoning": 41,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.00454062,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782838115706,
+              "sessionID": "ses_0e6915452ffeb6faRZDWj1NWe8",
+              "part": {
+                "id": "prt_f196ebd78001onwpuLE9KuCHxc",
+                "messageID": "msg_f196eaef3001MNkkyfjKp9WTGa",
+                "sessionID": "ses_0e6915452ffeb6faRZDWj1NWe8",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782838117453,
+              "sessionID": "ses_0e6915452ffeb6faRZDWj1NWe8",
+              "part": {
+                "id": "prt_f196ec34e001sX4ryD1O2hllAe",
+                "messageID": "msg_f196eaef3001MNkkyfjKp9WTGa",
+                "sessionID": "ses_0e6915452ffeb6faRZDWj1NWe8",
+                "type": "text",
+                "text": "```python\nimport csv\n\nwith open('sales.csv') as f:\n    reader = csv.DictReader(f)\n    total = sum(int(row['amount']) for row in reader)\n\nprint(total)\n```",
+                "time": {
+                  "start": 1782838117198,
+                  "end": 1782838117451
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782838117476,
+              "sessionID": "ses_0e6915452ffeb6faRZDWj1NWe8",
+              "part": {
+                "id": "prt_f196ec462001CC59FoqEIEten2",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f196eaef3001MNkkyfjKp9WTGa",
+                "sessionID": "ses_0e6915452ffeb6faRZDWj1NWe8",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 32349,
+                  "input": 32265,
+                  "output": 43,
+                  "reasoning": 41,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.00454062
+              }
+            }
+          ]
+        },
+        {
+          "exit_code": 0,
+          "time": 70.0,
+          "loc": 3,
+          "response": "```python\nimport csv\n\nwith open('sales.csv') as f:\n    total = sum(int(r['amount']) for r in csv.DictReader(f))\n```",
+          "tokens": {
+            "total": 32371,
+            "input": 32296,
+            "output": 35,
+            "reasoning": 40,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.00454244,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782839012619,
+              "sessionID": "ses_0e683a0f8ffeuEJgao1zQQi3fy",
+              "part": {
+                "id": "prt_f197c6cf8001ZPgo5JIxuzsbIF",
+                "messageID": "msg_f197c612a001BoUydqbwe3e4Rg",
+                "sessionID": "ses_0e683a0f8ffeuEJgao1zQQi3fy",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782839014703,
+              "sessionID": "ses_0e683a0f8ffeuEJgao1zQQi3fy",
+              "part": {
+                "id": "prt_f197c741f001Ug5L1DJmmMXOk0",
+                "messageID": "msg_f197c612a001BoUydqbwe3e4Rg",
+                "sessionID": "ses_0e683a0f8ffeuEJgao1zQQi3fy",
+                "type": "text",
+                "text": "```python\nimport csv\n\nwith open('sales.csv') as f:\n    total = sum(int(r['amount']) for r in csv.DictReader(f))\n```",
+                "time": {
+                  "start": 1782839014431,
+                  "end": 1782839014700
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782839014729,
+              "sessionID": "ses_0e683a0f8ffeuEJgao1zQQi3fy",
+              "part": {
+                "id": "prt_f197c7546001M0ACyCCdMOrfxn",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f197c612a001BoUydqbwe3e4Rg",
+                "sessionID": "ses_0e683a0f8ffeuEJgao1zQQi3fy",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 32371,
+                  "input": 32296,
+                  "output": 35,
+                  "reasoning": 40,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.00454244
+              }
+            }
+          ]
+        }
+      ],
+      "countdown": [
+        {
+          "exit_code": 0,
+          "time": 79.3,
+          "loc": 30,
+          "response": "```tsx\nimport { useState, useEffect, useRef } from \"react\";\n\ninterface CountdownTimerProps {\n  seconds: number;\n  onComplete?: () => void;\n}\n\nfunction formatTime(totalSeconds: number): string {\n  const m = Math.floor(totalSeconds / 60);\n  const s = totalSeconds % 60;\n  return `${String(m).padStart(2, \"0\")}:${String(s).padStart(2, \"0\")}`;\n}\n\nexport function CountdownTimer({ seconds, onComplete }: CountdownTimerProps) {\n  const [remaining, setRemaining] = useState(seconds);\n  const onCompleteRef = useRef(onComplete);\n  onCompleteRef.current = onComplete;\n\n  useEffect(() => {\n    if (remaining <= 0) return;\n\n    const id = setInterval(() => {\n      setRemaining((prev) => {\n        if (prev <= 1) {\n          clearInterval(id);\n          onCompleteRef.current?.();\n          return 0;\n        }\n        return prev - 1;\n      });\n    }, 1000);\n\n    return () => clearInterval(id);\n  }, [remaining]);\n\n  return <span>{formatTime(remaining)}</span>;\n}\n```",
+          "tokens": {
+            "total": 33473,
+            "input": 32181,
+            "output": 255,
+            "reasoning": 1037,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.0048671,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782837217747,
+              "sessionID": "ses_0e69f05aaffeWqX2kzHlcVB2rj",
+              "part": {
+                "id": "prt_f196109d0001t4A2GGFH5DwT6d",
+                "messageID": "msg_f1960fcf9001MIjprj9dH68XYZ",
+                "sessionID": "ses_0e69f05aaffeWqX2kzHlcVB2rj",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782837229049,
+              "sessionID": "ses_0e69f05aaffeWqX2kzHlcVB2rj",
+              "part": {
+                "id": "prt_f19612fd5001YNC6AZEoJgtzb6",
+                "messageID": "msg_f1960fcf9001MIjprj9dH68XYZ",
+                "sessionID": "ses_0e69f05aaffeWqX2kzHlcVB2rj",
+                "type": "text",
+                "text": "```tsx\nimport { useState, useEffect, useRef } from \"react\";\n\ninterface CountdownTimerProps {\n  seconds: number;\n  onComplete?: () => void;\n}\n\nfunction formatTime(totalSeconds: number): string {\n  const m = Math.floor(totalSeconds / 60);\n  const s = totalSeconds % 60;\n  return `${String(m).padStart(2, \"0\")}:${String(s).padStart(2, \"0\")}`;\n}\n\nexport function CountdownTimer({ seconds, onComplete }: CountdownTimerProps) {\n  const [remaining, setRemaining] = useState(seconds);\n  const onCompleteRef = useRef(onComplete);\n  onCompleteRef.current = onComplete;\n\n  useEffect(() => {\n    if (remaining <= 0) return;\n\n    const id = setInterval(() => {\n      setRemaining((prev) => {\n        if (prev <= 1) {\n          clearInterval(id);\n          onCompleteRef.current?.();\n          return 0;\n        }\n        return prev - 1;\n      });\n    }, 1000);\n\n    return () => clearInterval(id);\n  }, [remaining]);\n\n  return <span>{formatTime(remaining)}</span>;\n}\n```",
+                "time": {
+                  "start": 1782837227477,
+                  "end": 1782837229042
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782837229085,
+              "sessionID": "ses_0e69f05aaffeWqX2kzHlcVB2rj",
+              "part": {
+                "id": "prt_f19613619001bqEKoRagzLn6jT",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f1960fcf9001MIjprj9dH68XYZ",
+                "sessionID": "ses_0e69f05aaffeWqX2kzHlcVB2rj",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 33473,
+                  "input": 32181,
+                  "output": 255,
+                  "reasoning": 1037,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.0048671
+              }
+            }
+          ]
+        },
+        {
+          "exit_code": 0,
+          "time": 77.3,
+          "loc": 22,
+          "response": "```tsx\nimport { useState, useEffect } from \"react\";\n\ninterface CountdownTimerProps {\n  seconds: number;\n}\n\nexport function CountdownTimer({ seconds }: CountdownTimerProps) {\n  const [timeLeft, setTimeLeft] = useState(seconds);\n\n  useEffect(() => {\n    if (timeLeft <= 0) return;\n\n    const id = setInterval(() => {\n      setTimeLeft((prev) => prev - 1);\n    }, 1000);\n\n    return () => clearInterval(id);\n  }, [timeLeft]);\n\n  const minutes = Math.floor(timeLeft / 60);\n  const remainingSeconds = timeLeft % 60;\n\n  return (\n    <span>\n      {String(minutes).padStart(2, \"0\")}:\n      {String(remainingSeconds).padStart(2, \"0\")}\n    </span>\n  );\n}\n```",
+          "tokens": {
+            "total": 33180,
+            "input": 32256,
+            "output": 184,
+            "reasoning": 740,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.00477456,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782838186605,
+              "sessionID": "ses_0e6903babffeVut7aqQ6oFaLp4",
+              "part": {
+                "id": "prt_f196fd26c001e8v5BcmDoPzqh1",
+                "messageID": "msg_f196fc6d7001yNNCDqTmIKSvVU",
+                "sessionID": "ses_0e6903babffeVut7aqQ6oFaLp4",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782838194721,
+              "sessionID": "ses_0e6903babffeVut7aqQ6oFaLp4",
+              "part": {
+                "id": "prt_f196fee30001q41Bnl6fhZLnaJ",
+                "messageID": "msg_f196fc6d7001yNNCDqTmIKSvVU",
+                "sessionID": "ses_0e6903babffeVut7aqQ6oFaLp4",
+                "type": "text",
+                "text": "```tsx\nimport { useState, useEffect } from \"react\";\n\ninterface CountdownTimerProps {\n  seconds: number;\n}\n\nexport function CountdownTimer({ seconds }: CountdownTimerProps) {\n  const [timeLeft, setTimeLeft] = useState(seconds);\n\n  useEffect(() => {\n    if (timeLeft <= 0) return;\n\n    const id = setInterval(() => {\n      setTimeLeft((prev) => prev - 1);\n    }, 1000);\n\n    return () => clearInterval(id);\n  }, [timeLeft]);\n\n  const minutes = Math.floor(timeLeft / 60);\n  const remainingSeconds = timeLeft % 60;\n\n  return (\n    <span>\n      {String(minutes).padStart(2, \"0\")}:\n      {String(remainingSeconds).padStart(2, \"0\")}\n    </span>\n  );\n}\n```",
+                "time": {
+                  "start": 1782838193712,
+                  "end": 1782838194717
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782838194749,
+              "sessionID": "ses_0e6903babffeVut7aqQ6oFaLp4",
+              "part": {
+                "id": "prt_f196ff23a001JQkU01vC7SvlQJ",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f196fc6d7001yNNCDqTmIKSvVU",
+                "sessionID": "ses_0e6903babffeVut7aqQ6oFaLp4",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 33180,
+                  "input": 32256,
+                  "output": 184,
+                  "reasoning": 740,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.00477456
+              }
+            }
+          ]
+        },
+        {
+          "exit_code": 0,
+          "time": 73.9,
+          "loc": 69,
+          "response": "```tsx\nimport { useState, useEffect, useRef, useCallback } from \"react\";\n\ninterface CountdownTimerProps {\n  seconds: number;\n  onComplete?: () => void;\n  autoStart?: boolean;\n}\n\nfunction formatTime(totalSeconds: number): string {\n  const m = Math.floor(totalSeconds / 60);\n  const s = totalSeconds % 60;\n  return `${String(m).padStart(2, \"0\")}:${String(s).padStart(2, \"0\")}`;\n}\n\nexport function CountdownTimer({\n  seconds: initial,\n  onComplete,\n  autoStart = true,\n}: CountdownTimerProps) {\n  const [remaining, setRemaining] = useState(initial);\n  const [running, setRunning] = useState(autoStart);\n  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);\n  const doneRef = useRef(false);\n\n  const clear = useCallback(() => {\n    if (intervalRef.current !== null) {\n      clearInterval(intervalRef.current);\n      intervalRef.current = null;\n    }\n  }, []);\n\n  useEffect(() => {\n    if (!running || remaining <= 0) {\n      clear();\n      return;\n    }\n\n    intervalRef.current = setInterval(() => {\n      setRemaining((prev) => {\n        if (prev <= 1) {\n          clear();\n          setRunning(false);\n          if (!doneRef.current) {\n            doneRef.current = true;\n            // fire onComplete after state settles\n            setTimeout(() => onComplete?.(), 0);\n          }\n          return 0;\n        }\n        return prev - 1;\n      });\n    }, 1000);\n\n    return clear;\n  }, [running, remaining, onComplete, clear]);\n\n  const reset = useCallback(() => {\n    doneRef.current = false;\n    clear();\n    setRemaining(initial);\n    setRunning(autoStart);\n  }, [initial, autoStart, clear]);\n\n  const done = remaining <= 0;\n\n  return (\n    <div>\n      <span>{formatTime(remaining)}</span>\n      {done && <span> Time's up!</span>}\n      <div>\n        {!done && (\n          <button onClick={() => setRunning((r) => !r)}>\n            {running ? \"Pause\" : \"Resume\"}\n          </button>\n        )}\n        <button onClick={reset}>Reset</button>\n      </div>\n    </div>\n  );\n}\n```",
+          "tokens": {
+            "total": 33009,
+            "input": 32219,
+            "output": 520,
+            "reasoning": 270,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.00473186,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782839081409,
+              "sessionID": "ses_0e682951bffeX6PhbCJkiULT5m",
+              "part": {
+                "id": "prt_f197d79bf001JDPkFXi0arBUsO",
+                "messageID": "msg_f197d6d51001XMU285FmWvIZnf",
+                "sessionID": "ses_0e682951bffeX6PhbCJkiULT5m",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782839088668,
+              "sessionID": "ses_0e682951bffeX6PhbCJkiULT5m",
+              "part": {
+                "id": "prt_f197d8941001zLzWaydrPn7wK0",
+                "messageID": "msg_f197d6d51001XMU285FmWvIZnf",
+                "sessionID": "ses_0e682951bffeX6PhbCJkiULT5m",
+                "type": "text",
+                "text": "```tsx\nimport { useState, useEffect, useRef, useCallback } from \"react\";\n\ninterface CountdownTimerProps {\n  seconds: number;\n  onComplete?: () => void;\n  autoStart?: boolean;\n}\n\nfunction formatTime(totalSeconds: number): string {\n  const m = Math.floor(totalSeconds / 60);\n  const s = totalSeconds % 60;\n  return `${String(m).padStart(2, \"0\")}:${String(s).padStart(2, \"0\")}`;\n}\n\nexport function CountdownTimer({\n  seconds: initial,\n  onComplete,\n  autoStart = true,\n}: CountdownTimerProps) {\n  const [remaining, setRemaining] = useState(initial);\n  const [running, setRunning] = useState(autoStart);\n  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);\n  const doneRef = useRef(false);\n\n  const clear = useCallback(() => {\n    if (intervalRef.current !== null) {\n      clearInterval(intervalRef.current);\n      intervalRef.current = null;\n    }\n  }, []);\n\n  useEffect(() => {\n    if (!running || remaining <= 0) {\n      clear();\n      return;\n    }\n\n    intervalRef.current = setInterval(() => {\n      setRemaining((prev) => {\n        if (prev <= 1) {\n          clear();\n          setRunning(false);\n          if (!doneRef.current) {\n            doneRef.current = true;\n            // fire onComplete after state settles\n            setTimeout(() => onComplete?.(), 0);\n          }\n          return 0;\n        }\n        return prev - 1;\n      });\n    }, 1000);\n\n    return clear;\n  }, [running, remaining, onComplete, clear]);\n\n  const reset = useCallback(() => {\n    doneRef.current = false;\n    clear();\n    setRemaining(initial);\n    setRunning(autoStart);\n  }, [initial, autoStart, clear]);\n\n  const done = remaining <= 0;\n\n  return (\n    <div>\n      <span>{formatTime(remaining)}</span>\n      {done && <span> Time's up!</span>}\n      <div>\n        {!done && (\n          <button onClick={() => setRunning((r) => !r)}>\n            {running ? \"Pause\" : \"Resume\"}\n          </button>\n        )}\n        <button onClick={reset}>Reset</button>\n      </div>\n    </div>\n  );\n}\n```",
+                "time": {
+                  "start": 1782839085377,
+                  "end": 1782839088663
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782839088702,
+              "sessionID": "ses_0e682951bffeX6PhbCJkiULT5m",
+              "part": {
+                "id": "prt_f197d963b001ryiYv4J2OsMsBc",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f197d6d51001XMU285FmWvIZnf",
+                "sessionID": "ses_0e682951bffeX6PhbCJkiULT5m",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 33009,
+                  "input": 32219,
+                  "output": 520,
+                  "reasoning": 270,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.00473186
+              }
+            }
+          ]
+        }
+      ],
+      "rate-limit": [
+        {
+          "exit_code": 0,
+          "time": 73.0,
+          "loc": 11,
+          "response": "```python\n# requirements: slowapi\n\nfrom slowapi import Limiter, _rate_limit_exceeded_handler\nfrom slowapi.util import get_remote_address\nfrom fastapi import FastAPI\n\nlimiter = Limiter(key_func=get_remote_address)\n\napp = FastAPI()\napp.state.limiter = limiter\napp.add_exception_handler(429, _rate_limit_exceeded_handler)\n\n@app.get(\"/endpoint\")\n@limiter.limit(\"5/minute\")\nasync def my_endpoint(request: Request):\n    return {\"message\": \"ok\"}\n```",
+          "tokens": {
+            "total": 32606,
+            "input": 32276,
+            "output": 117,
+            "reasoning": 213,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.00461104,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782837297215,
+              "sessionID": "ses_0e69dd17cffeD79MOlXm71viPE",
+              "part": {
+                "id": "prt_f1962403c001dVMd8uaSN1MRVK",
+                "messageID": "msg_f196231fe001dZtCpHgLkgFxqy",
+                "sessionID": "ses_0e69dd17cffeD79MOlXm71viPE",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782837302035,
+              "sessionID": "ses_0e69dd17cffeD79MOlXm71viPE",
+              "part": {
+                "id": "prt_f19624f0c001bg58ULt076vNnW",
+                "messageID": "msg_f196231fe001dZtCpHgLkgFxqy",
+                "sessionID": "ses_0e69dd17cffeD79MOlXm71viPE",
+                "type": "text",
+                "text": "```python\n# requirements: slowapi\n\nfrom slowapi import Limiter, _rate_limit_exceeded_handler\nfrom slowapi.util import get_remote_address\nfrom fastapi import FastAPI\n\nlimiter = Limiter(key_func=get_remote_address)\n\napp = FastAPI()\napp.state.limiter = limiter\napp.add_exception_handler(429, _rate_limit_exceeded_handler)\n\n@app.get(\"/endpoint\")\n@limiter.limit(\"5/minute\")\nasync def my_endpoint(request: Request):\n    return {\"message\": \"ok\"}\n```",
+                "time": {
+                  "start": 1782837301004,
+                  "end": 1782837302032
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782837302066,
+              "sessionID": "ses_0e69dd17cffeD79MOlXm71viPE",
+              "part": {
+                "id": "prt_f1962532f001mfc2F3iEsE958j",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f196231fe001dZtCpHgLkgFxqy",
+                "sessionID": "ses_0e69dd17cffeD79MOlXm71viPE",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 32606,
+                  "input": 32276,
+                  "output": 117,
+                  "reasoning": 213,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.00461104
+              }
+            }
+          ]
+        },
+        {
+          "exit_code": 0,
+          "time": 70.9,
+          "loc": 23,
+          "response": "```python\nfrom contextlib import asynccontextmanager\n\nfrom fastapi import FastAPI, Request\nfrom slowapi import Limiter, _rate_limit_exceeded_handler\nfrom slowapi.errors import RateLimitExceeded\nfrom slowapi.util import get_remote_address\n\nlimiter = Limiter(key_func=get_remote_address)\n\n\n@asynccontextmanager\nasync def lifespan(app: FastAPI):\n    app.state.limiter = limiter\n    yield\n\n\napp = FastAPI(lifespan=lifespan)\napp.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)\n\n\n@app.get(\"/your-endpoint\")\n@limiter.limit(\"5/minute\")\nasync def your_endpoint(request: Request):\n    return {\"ok\": True}\n```\n\nFor distributed setups, swap the storage:\n\n```python\nfrom slowapi import Limiter\nfrom slowapi.middleware import SlowAPIMiddleware\n\nlimiter = Limiter(\n    key_func=get_remote_address,\n    storage_uri=\"redis://localhost:6379/0\",\n)\napp.add_middleware(SlowAPIMiddleware)\n```\n\nNo extras needed beyond `pip install slowapi[redis]`.",
+          "tokens": {
+            "total": 32575,
+            "input": 32196,
+            "output": 253,
+            "reasoning": 126,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.00461356,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782838261396,
+              "sessionID": "ses_0e68f170affeyz33zxizlmC6Hl",
+              "part": {
+                "id": "prt_f1970f691001BWjWjNyxQjoFZi",
+                "messageID": "msg_f1970eb61001kkZjEZFCrJlWOB",
+                "sessionID": "ses_0e68f170affeyz33zxizlmC6Hl",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782838265646,
+              "sessionID": "ses_0e68f170affeyz33zxizlmC6Hl",
+              "part": {
+                "id": "prt_f1970ff16001m5xcppWSFTQRmm",
+                "messageID": "msg_f1970eb61001kkZjEZFCrJlWOB",
+                "sessionID": "ses_0e68f170affeyz33zxizlmC6Hl",
+                "type": "text",
+                "text": "```python\nfrom contextlib import asynccontextmanager\n\nfrom fastapi import FastAPI, Request\nfrom slowapi import Limiter, _rate_limit_exceeded_handler\nfrom slowapi.errors import RateLimitExceeded\nfrom slowapi.util import get_remote_address\n\nlimiter = Limiter(key_func=get_remote_address)\n\n\n@asynccontextmanager\nasync def lifespan(app: FastAPI):\n    app.state.limiter = limiter\n    yield\n\n\napp = FastAPI(lifespan=lifespan)\napp.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)\n\n\n@app.get(\"/your-endpoint\")\n@limiter.limit(\"5/minute\")\nasync def your_endpoint(request: Request):\n    return {\"ok\": True}\n```\n\nFor distributed setups, swap the storage:\n\n```python\nfrom slowapi import Limiter\nfrom slowapi.middleware import SlowAPIMiddleware\n\nlimiter = Limiter(\n    key_func=get_remote_address,\n    storage_uri=\"redis://localhost:6379/0\",\n)\napp.add_middleware(SlowAPIMiddleware)\n```\n\nNo extras needed beyond `pip install slowapi[redis]`.",
+                "time": {
+                  "start": 1782838263574,
+                  "end": 1782838265641
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782838265679,
+              "sessionID": "ses_0e68f170affeyz33zxizlmC6Hl",
+              "part": {
+                "id": "prt_f1971074c001Z9XuzZ1jblC4nI",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f1970eb61001kkZjEZFCrJlWOB",
+                "sessionID": "ses_0e68f170affeyz33zxizlmC6Hl",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 32575,
+                  "input": 32196,
+                  "output": 253,
+                  "reasoning": 126,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.00461356
+              }
+            }
+          ]
+        },
+        {
+          "exit_code": 0,
+          "time": 70.9,
+          "loc": 14,
+          "response": "```python\n# Install: pip install slowapi\n\nfrom slowapi import Limiter, _rate_limit_exceeded_handler\nfrom slowapi.util import get_remote_address\nfrom fastapi import FastAPI\n\nlimiter = Limiter(key_func=get_remote_address)\n\napp = FastAPI()\napp.state.limiter = limiter\napp.add_exception_handler(429, _rate_limit_exceeded_handler)\n\n\n@app.get(\"/my-endpoint\")\n@limiter.limit(\"5/minute\")\nasync def my_endpoint(request: Request):\n    return {\"message\": \"OK\"}\n```\n\nIf you need per-user (API key) instead of per-IP, swap `key_func`:\n\n```python\ndef user_key(request: Request) -> str:\n    return request.headers.get(\"X-API-Key\", get_remote_address(request))\n\nlimiter = Limiter(key_func=user_key)\n```",
+          "tokens": {
+            "total": 32485,
+            "input": 32219,
+            "output": 184,
+            "reasoning": 82,
+            "cache": {
+              "write": 0,
+              "read": 0
+            }
+          },
+          "cost": 0.00458514,
+          "reason": "stop",
+          "stderr": "",
+          "events": [
+            {
+              "type": "step_start",
+              "timestamp": 1782839156403,
+              "sessionID": "ses_0e68170aeffeUL40JM6Fy4JV1w",
+              "part": {
+                "id": "prt_f197e9eaf001W1ZraRFX8FQUr3",
+                "messageID": "msg_f197e92cf001x1KDyIteiMn613",
+                "sessionID": "ses_0e68170aeffeUL40JM6Fy4JV1w",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "type": "step-start"
+              }
+            },
+            {
+              "type": "text",
+              "timestamp": 1782839159535,
+              "sessionID": "ses_0e68170aeffeUL40JM6Fy4JV1w",
+              "part": {
+                "id": "prt_f197ea5d1001QodX1518oFl7jq",
+                "messageID": "msg_f197e92cf001x1KDyIteiMn613",
+                "sessionID": "ses_0e68170aeffeUL40JM6Fy4JV1w",
+                "type": "text",
+                "text": "```python\n# Install: pip install slowapi\n\nfrom slowapi import Limiter, _rate_limit_exceeded_handler\nfrom slowapi.util import get_remote_address\nfrom fastapi import FastAPI\n\nlimiter = Limiter(key_func=get_remote_address)\n\napp = FastAPI()\napp.state.limiter = limiter\napp.add_exception_handler(429, _rate_limit_exceeded_handler)\n\n\n@app.get(\"/my-endpoint\")\n@limiter.limit(\"5/minute\")\nasync def my_endpoint(request: Request):\n    return {\"message\": \"OK\"}\n```\n\nIf you need per-user (API key) instead of per-IP, swap `key_func`:\n\n```python\ndef user_key(request: Request) -> str:\n    return request.headers.get(\"X-API-Key\", get_remote_address(request))\n\nlimiter = Limiter(key_func=user_key)\n```",
+                "time": {
+                  "start": 1782839158225,
+                  "end": 1782839159532
+                }
+              }
+            },
+            {
+              "type": "step_finish",
+              "timestamp": 1782839159558,
+              "sessionID": "ses_0e68170aeffeUL40JM6Fy4JV1w",
+              "part": {
+                "id": "prt_f197eab03001YRAzMmre1YgwpJ",
+                "reason": "stop",
+                "snapshot": "486333edad003a204b006b14cfad7e69c666e0d6",
+                "messageID": "msg_f197e92cf001x1KDyIteiMn613",
+                "sessionID": "ses_0e68170aeffeUL40JM6Fy4JV1w",
+                "type": "step-finish",
+                "tokens": {
+                  "total": 32485,
+                  "input": 32219,
+                  "output": 184,
+                  "reasoning": 82,
+                  "cache": {
+                    "write": 0,
+                    "read": 0
+                  }
+                },
+                "cost": 0.00458514
+              }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "summary": {
+    "loc": {
+      "baseline": {
+        "email": 8,
+        "debounce": 14,
+        "csv-sum": 4,
+        "countdown": 49,
+        "rate-limit": 12
+      },
+      "caveman": {
+        "email": 6,
+        "debounce": 12,
+        "csv-sum": 4,
+        "countdown": 53,
+        "rate-limit": 14
+      },
+      "graybeard": {
+        "email": 14,
+        "debounce": 14,
+        "csv-sum": 5,
+        "countdown": 30,
+        "rate-limit": 14
+      }
+    },
+    "time": {
+      "baseline": {
+        "email": 69.1,
+        "debounce": 70.4,
+        "csv-sum": 69.7,
+        "countdown": 71.5,
+        "rate-limit": 71.2
+      },
+      "caveman": {
+        "email": 70.3,
+        "debounce": 70.8,
+        "csv-sum": 69.1,
+        "countdown": 11.4,
+        "rate-limit": 73.5
+      },
+      "graybeard": {
+        "email": 11.7,
+        "debounce": 69.9,
+        "csv-sum": 72.3,
+        "countdown": 77.3,
+        "rate-limit": 70.9
+      }
+    },
+    "cost": {
+      "baseline": {
+        "email": 0.00446138,
+        "debounce": 0.00441238,
+        "csv-sum": 0.00440006,
+        "countdown": 0.00449526,
+        "rate-limit": 0.00443212
+      },
+      "caveman": {
+        "email": 0.00453138,
+        "debounce": 0.00454146,
+        "csv-sum": 0.00451738,
+        "countdown": 0.00465906,
+        "rate-limit": 0.00456134
+      },
+      "graybeard": {
+        "email": 0.0045906,
+        "debounce": 0.00456932,
+        "csv-sum": 0.00454062,
+        "countdown": 0.00477456,
+        "rate-limit": 0.00461104
+      }
+    },
+    "tokens_total": {
+      "baseline": {
+        "email": 31508,
+        "debounce": 31376,
+        "csv-sum": 31330,
+        "countdown": 31676,
+        "rate-limit": 31445
+      },
+      "caveman": {
+        "email": 32254,
+        "debounce": 32295,
+        "csv-sum": 32206,
+        "countdown": 32747,
+        "rate-limit": 32607
+      },
+      "graybeard": {
+        "email": 32509,
+        "debounce": 32445,
+        "csv-sum": 32349,
+        "countdown": 33180,
+        "rate-limit": 32575
+      }
+    }
+  }
+}

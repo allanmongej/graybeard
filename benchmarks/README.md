@@ -12,6 +12,7 @@ Ponytail's historical numbers as Graybeard results.
 
 | Date | Harness | Model | Result |
 |------|---------|-------|--------|
+| 2026-06-30 | OpenCode Go LOC/cost/latency | `opencode-go/deepseek-v4-flash` | Graybeard produced 77 median LOC, 11% less than the 87 LOC baseline, with about 4% higher cost. See `results/2026-06-30-deepseek-v4-flash-opencode.md`. |
 | 2026-06-29 | local Ollama LOC/latency | `llama3.2` | Graybeard produced 142 median LOC, 17% more than the 121 LOC baseline. See `results/2026-06-29-llama3.2-local.md`. |
 
 ## Reproduce
