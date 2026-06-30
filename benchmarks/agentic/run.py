@@ -35,7 +35,6 @@ def _skill(rel): return (ROOT / rel).read_text(encoding="utf-8")
 ARMS = {
     "baseline":       lambda: None,
     "graybeard":       lambda: _skill("skills/graybeard/SKILL.md"),
-    "caveman":        lambda: _skill("benchmarks/arms/caveman-SKILL.md"),
     "yagni":          lambda: "Follow YAGNI principles.",
     "yagni-oneliner": lambda: "Follow YAGNI principles, and prefer one-liner solutions.",
 }
@@ -44,14 +43,14 @@ MODELS = {"haiku": "claude-haiku-4-5-20251001", "sonnet": "claude-sonnet-4-6", "
 # Skills are plugins activated by a SessionStart hook. To test exactly one at a time we exclude the
 # user's globally-enabled plugins (--setting-sources project,local) and load one plugin from its
 # cache dir (--plugin-dir). The smoke test verifies activation by output style.
-PLUGIN_ARMS = ("graybeard", "caveman")          # arms activated via --plugin-dir (vs raw --append prompts)
+PLUGIN_ARMS = ("graybeard",)                    # arms activated via --plugin-dir (vs raw --append prompts)
 PLUGIN_CACHE = Path.home() / ".claude" / "plugins" / "cache"
 
 def _plugin_dir(name):
     """Resolve a plugin's cache dir portably -- hardcoding one machine's absolute path
-    (e.g. C:\\Users\\<you>\\...) made the graybeard/caveman arms unreproducible off that box.
+    (e.g. C:\\Users\\<you>\\...) made the graybeard arm unreproducible off that box.
     Order: env override -> latest version dir under ~/.claude/plugins/cache -> clear error.
-    Resolved per-arm at use-site so a missing caveman install can't block a graybeard-only run."""
+    Resolved per-arm at use-site so missing optional arms do not block a graybeard-only run."""
     env = os.environ.get(f"{name.upper()}_PLUGIN_DIR")
     if env: return env
     base = PLUGIN_CACHE / name / name
@@ -281,7 +280,7 @@ def run_cell(task_id, arm, model, workdir: Path):
     if not claude: sys.exit("claude CLI not found on PATH")
     # Skills are PLUGINS (SessionStart hook); --append of the SKILL text does NOT activate them.
     # Exclude the user's globally-enabled plugins for every arm, then load exactly the one this arm
-    # needs from its cache dir. baseline loads none; yagni-oneliner is a raw prompt so it uses --append.
+    # needs from its cache dir. baseline loads none; ablation arms use --append.
     # No live verification (see NO_RUN): --strict-mcp-config drops all MCP servers so there is no browser
     # tool, and --disallowedTools Bash blocks running a server/db/npm. An agent writes with
     # Read/Write/Edit/Glob/Grep and stops -- no login wall, no browser thrash. We measure code, not execution.
@@ -293,7 +292,7 @@ def run_cell(task_id, arm, model, workdir: Path):
     if arm in PLUGIN_ARMS:
         cmd += ["--plugin-dir", _plugin_dir(arm)]       # real activation of exactly one plugin
     else:
-        extra = ARMS[arm]()                             # baseline -> None; yagni-oneliner -> the prompt
+        extra = ARMS[arm]()                             # baseline -> None; ablation arms -> prompt text
         if extra: append = extra + "\n\n" + NO_RUN
     cmd += ["--append-system-prompt", append]
     out_path, err_path = workdir / "_claude.json", workdir / "_claude.stderr.txt"
@@ -383,7 +382,7 @@ def main():
     ap.add_argument("--rescore", help="recompute metrics from a kept run dir (no API)")
     ap.add_argument("--task", help="single task id")
     ap.add_argument("--all", action="store_true", help="all tasks")
-    ap.add_argument("--arms", default=",".join(ARMS))
+    ap.add_argument("--arms", default="baseline,graybeard")
     ap.add_argument("--model", help="single model (shorthand for --models)")
     ap.add_argument("--models", default="haiku", help="comma list: haiku,sonnet,opus")
     ap.add_argument("--runs", type=int, default=1)

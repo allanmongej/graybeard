@@ -42,7 +42,7 @@ The harness expects a Claude CLI environment and provider credentials. Example:
 
 ```bash
 python benchmarks/agentic/run.py \
-  --arms baseline,caveman,graybeard,yagni-oneliner \
+  --arms baseline,graybeard \
   --models haiku \
   --runs 4 \
   --workers 6

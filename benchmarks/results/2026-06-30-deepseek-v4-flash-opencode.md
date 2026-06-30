@@ -10,7 +10,7 @@ Date: 2026-06-30
 - Provider: OpenCode Go
 - Model: `opencode-go/deepseek-v4-flash`
 - Variant: `max`
-- Arms: `baseline`, `caveman`, `graybeard`
+- Arms: `baseline`, `graybeard`
 - Tasks: `email`, `debounce`, `csv-sum`, `countdown`, `rate-limit`
 - Statistic: median of 3 runs per arm/task
 - Raw responses: `benchmarks/results/2026-06-30-deepseek-v4-flash-opencode.json`
@@ -20,7 +20,6 @@ Date: 2026-06-30
 | arm | email | debounce | csv-sum | countdown | rate-limit | total |
 |---|---:|---:|---:|---:|---:|---:|
 | baseline | 8 | 14 | 4 | 49 | 12 | 87 |
-| caveman | 6 | 12 | 4 | 53 | 14 | 89 |
 | graybeard | 14 | 14 | 5 | 30 | 14 | 77 |
 
 ## Median Latency
@@ -28,7 +27,6 @@ Date: 2026-06-30
 | arm | email | debounce | csv-sum | countdown | rate-limit | total |
 |---|---:|---:|---:|---:|---:|---:|
 | baseline | 69.1s | 70.4s | 69.7s | 71.5s | 71.2s | 351.9s |
-| caveman | 70.3s | 70.8s | 69.1s | 11.4s | 73.5s | 295.1s |
 | graybeard | 11.7s | 69.9s | 72.3s | 77.3s | 70.9s | 302.1s |
 
 ## Median Cost
@@ -36,14 +34,12 @@ Date: 2026-06-30
 | arm | email | debounce | csv-sum | countdown | rate-limit | total |
 |---|---:|---:|---:|---:|---:|---:|
 | baseline | $0.004461 | $0.004412 | $0.004400 | $0.004495 | $0.004432 | $0.022201 |
-| caveman | $0.004531 | $0.004541 | $0.004517 | $0.004659 | $0.004561 | $0.022811 |
 | graybeard | $0.004591 | $0.004569 | $0.004541 | $0.004775 | $0.004611 | $0.023086 |
 
 ## Result
 
 On DeepSeek V4 Flash through OpenCode Go, Graybeard produced 77 median LOC,
-which is 11% less than the 87 LOC baseline. Caveman produced 89 LOC, 2% more
-than baseline.
+which is 11% less than the 87 LOC baseline.
 
 Graybeard did not reduce token usage or cost in this run. Aggregate median cost
 was $0.023086 for Graybeard versus $0.022201 for baseline, about 4% higher.
@@ -59,4 +55,3 @@ without more provider runs.
 - The prompts are small isolated tasks, not full repository edits.
 - Provider latency was highly variable during the run.
 - Results are model-specific; this does not supersede the local Ollama result.
-

@@ -20,7 +20,7 @@ const pick = (re, armIdx) =>
 
 const rows = [];
 for (const [re, slug, title] of meta) {
-  const b = pick(re, 0), p = pick(re, 2);
+  const b = pick(re, 0), p = pick(re, 1);
   if (!b || !p) { console.log('MISS', slug, !!b, !!p); continue; }
   const bL = loc(b.response.output).score, pL = loc(p.response.output).score;
   const md = `# ${title}
@@ -52,7 +52,7 @@ with no skill (\`## Without Graybeard\`) and with graybeard (\`## With Graybeard
 compare side by side. Model: Claude Haiku 4.5, temperature 1, source \`benchmarks/output.json\`.
 
 These are not hand-written. Reproduce them yourself:
-\`npx promptfoo@latest eval -c benchmarks/promptfooconfig.yaml\`. Method, all three models, and
+\`npx promptfoo@latest eval -c benchmarks/promptfooconfig.yaml\`. Method, model set, and
 median-of-10 numbers: [../benchmarks/](../benchmarks/).
 
 | Example | Without (LOC) | With (LOC) |

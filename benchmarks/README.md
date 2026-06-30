@@ -56,7 +56,6 @@ npx promptfoo@latest view
 The default Claude config compares:
 
 - baseline: no skill
-- caveman: terse communication control
 - graybeard: `skills/graybeard/SKILL.md`
 
 ### Behavior Gates
@@ -86,7 +85,7 @@ tasks with deterministic scoring:
 
 ```bash
 python benchmarks/agentic/run.py --selftest
-python benchmarks/agentic/run.py --arms baseline,caveman,graybeard --models haiku --runs 4
+python benchmarks/agentic/run.py --arms baseline,graybeard --models haiku --runs 4
 ```
 
 The agentic task set should cover:
