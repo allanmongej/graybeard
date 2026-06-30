@@ -1,12 +1,11 @@
-# Graybeard benchmark: code size + cost across three arms, same model, same tasks.
+# Graybeard benchmark: code size + cost across baseline and Graybeard, same model, same tasks.
 #
 #   Run:   npx promptfoo@latest eval -c benchmarks/promptfooconfig.yaml
 #   View:  npx promptfoo@latest view
 #   Share: npx promptfoo@latest share   (publishes a hosted report URL)
 #
 # Needs ANTHROPIC_API_KEY in the environment or a .env file (see benchmarks/README.md).
-# Caveman arm uses JuliusBrussee/caveman SKILL.md (MIT), vendored at arms/caveman-SKILL.md.
-description: "Graybeard vs caveman vs no-skill: same model, same tasks. Measures code LOC (deterministic) and tokens/cost (API telemetry)."
+description: "Graybeard vs no-skill baseline: same model, same tasks. Measures code LOC (deterministic) and tokens/cost (API telemetry)."
 
 providers:
   - id: anthropic:messages:claude-haiku-4-5-20251001
@@ -19,8 +18,6 @@ providers:
 prompts:
   - id: file://arms/baseline.js
     label: baseline (no skill)
-  - id: file://arms/caveman.js
-    label: caveman
   - id: file://arms/graybeard.js
     label: graybeard
 

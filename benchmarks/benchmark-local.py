@@ -1,6 +1,6 @@
 """
 Graybeard local benchmark — runs the same 5 tasks against any Ollama model.
-No promptfoo required. Compares baseline vs caveman vs graybeard on code LOC
+No promptfoo required. Compares baseline vs graybeard on code LOC
 and wall-clock time. Results are printed as a table and saved to a JSON file.
 
 Usage:
@@ -32,7 +32,6 @@ TASKS = [
 def load_arms():
     return {
         "baseline": None,
-        "caveman":  (ROOT / "benchmarks/arms/caveman-SKILL.md").read_text(encoding="utf-8"),
         "graybeard": (ROOT / "skills/graybeard/SKILL.md").read_text(encoding="utf-8"),
     }
 
@@ -133,7 +132,7 @@ def run(model, repeat, ollama_url):
     print("  LOC vs baseline (median totals)")
     print(f"{'=' * 60}")
     base_total = sum(med_loc["baseline"][t] for t in task_ids)
-    for arm in ("caveman", "graybeard"):
+    for arm in ("graybeard",):
         arm_total = sum(med_loc[arm][t] for t in task_ids)
         pct = (1 - arm_total / base_total) * 100 if base_total else 0
         sign = "less" if pct >= 0 else "more"
@@ -150,6 +149,9 @@ def main():
     parser.add_argument("--repeat",     type=int, default=1, help="Runs per cell; median reported (default: 1)")
     parser.add_argument("--ollama-url", default="http://localhost:11434", help="Ollama base URL")
     args = parser.parse_args()
+
+    if args.repeat < 1:
+        parser.error("--repeat must be at least 1.")
 
     parsed_url = urllib.parse.urlparse(args.ollama_url)
     if parsed_url.scheme not in ("http", "https"):

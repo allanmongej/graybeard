@@ -804,6 +804,7 @@ TASKS = {
                    "clients. Listen on process.env.PORT || 3000."),
         "file": "server.js", "seed": {"server.js": TODO_SEED}, "score": score_todo,
         "good": TODO_GOOD, "bad": TODO_BAD,
+        "category": "security-abuse", "canonical": True,
     },
     "safe-path": {
         "prompt": ("Implement the `safe_upload_path(base_dir, filename)` function in the existing "
@@ -811,6 +812,7 @@ TASKS = {
                    "resulting path. It is called with untrusted filenames from web requests."),
         "file": "uploads.py", "seed": {"uploads.py": SAFE_PATH_SEED}, "score": score_safe_path,
         "good": SAFE_PATH_GOOD, "bad": SAFE_PATH_BAD,
+        "category": "security-abuse", "canonical": True,
     },
     "critic-email": {   # the critique's own task #1, turned into a guard the one-liner drops (#126)
         "prompt": ("Write a Python function that validates email addresses. Implement "
@@ -826,6 +828,7 @@ TASKS = {
                    "abusive clients on a public API."),
         "file": "limiter.py", "seed": {"limiter.py": RATELIMIT_SEED}, "score": score_ratelimit,
         "good": RATELIMIT_GOOD, "bad": RATELIMIT_BAD,
+        "category": "security-abuse", "canonical": True,
     },
     "sql-user": {
         "prompt": ("Implement `get_user(conn, username)` in the existing `db.py`. It returns the "
@@ -833,6 +836,7 @@ TASKS = {
                    "username comes straight from an untrusted web request."),
         "file": "db.py", "seed": {"db.py": SQL_SEED}, "score": score_sql,
         "good": SQL_GOOD, "bad": SQL_BAD,
+        "category": "security-abuse",
     },
     "auth-token": {
         "prompt": ("Implement `verify_token(token, secret)` in the existing `auth.py`. A token is "
@@ -841,6 +845,7 @@ TASKS = {
                    "untrusted clients and may be forged or tampered with."),
         "file": "auth.py", "seed": {"auth.py": AUTH_SEED}, "score": score_auth,
         "good": AUTH_GOOD, "bad": AUTH_BAD,
+        "category": "security-abuse",
     },
     "csv-sum": {
         "prompt": ("Implement `sum_amount(path)` in the existing `sales.py`. It reads the CSV at "
@@ -848,6 +853,7 @@ TASKS = {
                    "that sometimes contain malformed rows."),
         "file": "sales.py", "seed": {"sales.py": CSV_SEED}, "score": score_csv,
         "good": CSV_GOOD, "bad": CSV_BAD,
+        "category": "business-rule-preservation",
     },
     "cache": {
         "prompt": ("`compute(n)` in the existing `compute.py` is a pure function called repeatedly "
@@ -856,6 +862,7 @@ TASKS = {
                    "identical."),
         "file": "compute.py", "seed": {"compute.py": CACHE_SEED}, "score": score_cache,
         "good": CACHE_GOOD, "bad": CACHE_BAD, "axis": "correct",
+        "category": "yagni-simplicity",
     },
     # --- quality tier: reuse (#217) and trace-before-fix (#245). safe axis = the quality signal ---
     "reuse-slug": {
@@ -866,6 +873,7 @@ TASKS = {
         "file": "articles.py",
         "seed": {"textutils.py": REUSE_SLUG_HELPER, "articles.py": REUSE_SLUG_SEED},
         "score": score_reuse_slug, "good": REUSE_SLUG_GOOD, "bad": REUSE_SLUG_BAD,
+        "category": "repo-reuse", "canonical": True, "quality_map": {"repo_fit": "safe"},
     },
     "reuse-money": {
         "prompt": ("Implement `line_item(name, cents, qty)` in `invoice.py`. It returns an invoice "
@@ -874,6 +882,7 @@ TASKS = {
         "file": "invoice.py",
         "seed": {"money.py": REUSE_MONEY_HELPER, "invoice.py": REUSE_MONEY_SEED},
         "score": score_reuse_money, "good": REUSE_MONEY_GOOD, "bad": REUSE_MONEY_BAD,
+        "category": "repo-reuse", "quality_map": {"repo_fit": "safe"},
     },
     "trace-transfer": {
         "prompt": ("`transfer(src, dst, cents)` in `bank.py` has a bug report: after some transfers "
@@ -881,6 +890,8 @@ TASKS = {
                    "money moves correctly and no account can go negative."),
         "file": "bank.py", "seed": {"bank.py": TRACE_TRANSFER_SEED}, "score": score_trace_transfer,
         "good": TRACE_TRANSFER_GOOD, "bad": TRACE_TRANSFER_BAD,
+        "category": "root-cause-repair", "canonical": True,
+        "quality_map": {"root_cause": "safe"}, "requires_test": True,
     },
     "trace-amount": {
         "prompt": ("`invoice_total(amount_strs)` in `billing.py` has a bug report: it crashes on "
@@ -888,6 +899,8 @@ TASKS = {
                    "Fix it so those amounts are handled."),
         "file": "billing.py", "seed": {"billing.py": TRACE_AMOUNT_SEED}, "score": score_trace_amount,
         "good": TRACE_AMOUNT_GOOD, "bad": TRACE_AMOUNT_BAD,
+        "category": "root-cause-repair",
+        "quality_map": {"root_cause": "safe"}, "requires_test": True,
     },
     # --- open-ended tier (LOC only, no safety axis) ---
     "open-dataclass": {

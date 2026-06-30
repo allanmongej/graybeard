@@ -2,7 +2,6 @@
   "method": "One fresh Claude Code subagent per task x config, same model, no file outputs. Metrics from task telemetry: total tokens (includes thinking), duration. Code lines counted from fenced blocks in the deliverable.",
   "configs": [
     "baseline — no skill",
-    "caveman — caveman SKILL.md (full) as operating instructions",
     "graybeard — graybeard SKILL.md (full) as operating instructions"
   ],
   "tasks": [
