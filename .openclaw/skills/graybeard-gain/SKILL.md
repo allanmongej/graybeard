@@ -15,7 +15,8 @@ If `benchmarks/results/` contains Graybeard result files, summarize the newest
 measured medians for:
 
 - correctness / behavior gates
-- code size where measured
+- real-life agentic task quality when measured
+- code size where measured as a supporting bloat signal
 - cost / latency where measured
 - safety or regression failures
 - limitations, invalidated runs, or negative findings
@@ -35,4 +36,5 @@ Then list the runnable benchmark entry points:
 Ponytail's published benchmark results are upstream evidence for Ponytail, not
 Graybeard. Graybeard needs its own run before claiming savings. If the newest
 Graybeard run shows more code, worse latency, or missing correctness coverage,
-say that plainly.
+say that plainly. Do not treat fewer lines as success unless the same result
+also shows the implementation is correct, safe, and repo-appropriate.
